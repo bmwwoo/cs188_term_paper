@@ -179,6 +179,30 @@ We also performed pair programming in certain scenarios such as when developing 
 \\
 \end{mainSection}
 
+\begin{mainSection}{Testing}
+  \subsection{Configuration}
+  We used the following software packages for all of our testing:
+  \begin{itemize}
+    \item Nginx
+    \item Phusion Passenger
+    \item MySQL
+  \end{itemize}
+
+  We modified the provided JavaScript Object Notation (JSON) files to configure our server with the proper environmental variables, letting us keep our secret keys out of our public version control.\\
+
+  The service was developed on our personal laptops, with all performance testing running on Amazon Web Services (AWS).  It was trivial for us to deploy new versions because we only had to deploy for performance testing, which was handled by our server provisioning scripts.\\
+
+  \subsection{Initial testing}
+  The first tests of Market Chirp showed massive performance issues.  Twitter sentiment data was calculated for all 100 tweets (pulled from Twitter separately for each request), leading to $20+$ second delays in getting results when searching for a stock symbol.  From looking at the logs and \texttt{top}, it was clear that the process was CPU bound.  No formal Tsung testing happened at this performance level because individual page loadings took too long and the service was not ready for even a single user.\\
+
+  A MySQL driven "cache" was created to store Twitter analysis data for a day, for each stock that was searched.  While initial stock searches caused unreasonable delays of $20+$ seconds, subsequent delays were much, much faster, happening in less than $5$ seconds.  The cache stores the overall calculated sentiment and it stores a single tweet out of the $100$ sampled tweets that has the closest sentiment value as an average tweet for the given sample.\\
+
+  A similar MySQL driven caching system as added to cache the 10 years of Yahoo Finance stock data downloaded for each symbol requested.  The stock data itself was stored as a JSON text blob, as the client side graphing library read in that JSON.  It made more sense to store the JSON received from Yahoo in the same format that the graph required, than it did to parse the JSON, store each value individually, and read those values out as JSON later.
+
+  \subsection{Vertical scaling}
+  Vertical scaling, simply throwing more processing power at the problem, is simple but expensive.  We expected to get marginal performance gains by scaling vertically because our main bottleneck was the CPU bound Twitter sentiment analysis.
+\end{mainSection}
+
 \bibliographystyle{plainnat}
 \bibliography{ABCs}
 \end{document}
