@@ -1,8 +1,0 @@
-\contentsline {section}{Problem 1}{3}
-\contentsline {section}{Exercise \#2}{5}
-\contentsline {subsection}{(a)}{5}
-\contentsline {subsection}{(b)}{5}
-\contentsline {section}{Prob. III}{5}
-\contentsline {subsection}{Prob. III:\nobreakspace {}(a)}{5}
-\contentsline {subsection}{Prob. III:\nobreakspace {}(b)}{6}
-\contentsline {section}{Prob. IV}{6}
