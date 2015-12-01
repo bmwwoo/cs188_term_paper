@@ -161,6 +161,12 @@ Pivotal Tracker guided us in following the Agile development framework. With Piv
 \\
 Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
 \\
+Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
+\\
+We also performed pair programming in certain scenarios such as when developing our Memcached feature optimization. Pair programming allowed us to minimize our errors as we wrote our code since we had multiple eyes on the screen at a time. In doing so, our time of outlining a feature branch to pushing production ready code was optimized a substantial amount.
+\\
+Since Rails is a test driven development framework, it automatically created testing templates for the classes we developed. We made sure to follow test driven development in which one creates test cases for a feature before actually implementing the feature. By following TDD, edge cases were covered as we programmed out the features since we were aware of them beforehand. Since we created ample test cases, the majority of our code was covered and allowed us to be confident our website would not crash when scaled upward.
+\\
 }
 \end{homeworkProblem}
 
