@@ -419,7 +419,7 @@ When separate database servers were used (for example, in horizontal scaling), t
 
     We expect our database to be mostly read, with much fewer writes as users are likely to spend more of their time accessing stock data than they are favoriting or unfavoriting stocks.  Therefore, if we wanted to increase the performance of our data persistence layer, we would add read-only slaves with a write-master.  However, as seen in Section \ref{subsec:mem}, moving to Memcached eliminated the need for our MySQL database to cache the stock analysis and price data, reducing database hits.
 
-  \subsection{Memory Caching} \label{subsec:mem}
+  \subsection{Memory caching} \label{subsec:mem}
   % TODO We *don't* flush Memcached when "full", right?
   Another method we implemented to speed up our application was to use a memory object caching system. We used Memcached in our application through the \texttt{dalli} gem, which stores the cache in memory instead of on disk. Since memory provides faster access times than disk, the read and write times of cache fragments were reduced. In order to provide this server-side caching, a new instance of Memcached needed to be started within each server. When the memory cache was full or the memory expired after a set amount of time, we flushed the old caches. If there was still space but the cached item had expired, we immediately overwrote the old value with a current one. Memcached replaced our MySQL database as our main caching layer as it was faster than MySQL but had the same required functionality.\\
 
