@@ -1,0 +1,165 @@
+<?xml version="1.0"?><tsung loglevel="notice" version="1.0">
+
+  <clients>
+    <client host="localhost" use_controller_vm="true" maxusers="15000"/>
+  </clients>
+
+  <servers>
+    <server host="ec2-52-33-13-110.us-west-2.compute.amazonaws.com" port="80" type="tcp"/>
+  </servers>
+
+  <load>
+    <arrivalphase phase="1" duration="30" unit="second">
+      <users arrivalrate="1" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="2" duration="30" unit="second">
+      <users arrivalrate="2" unit="second"/>
+    </arrivalphase>
+    <arrivalphase phase="3" duration="30" unit="second">
+      <users arrivalrate="4" unit="second"/>
+    </arrivalphase>
+   <arrivalphase phase="4" duration="30" unit="second">
+     <users arrivalrate="8" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="5" duration="30" unit="second">
+     <users arrivalrate="16" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="6" duration="30" unit="second">
+     <users arrivalrate="32" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="7" duration="30" unit="second">
+     <users arrivalrate="64" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="8" duration="30" unit="second">
+     <users arrivalrate="128" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="9" duration="30" unit="second">
+     <users arrivalrate="256" unit="second"/>
+   </arrivalphase>
+   <arrivalphase phase="10" duration="30" unit="second">
+     <users arrivalrate="512" unit="second"/>
+   </arrivalphase>
+  </load>
+
+  <options>
+    <option name="global_ack_timeout" value="2000"/>
+
+    <option type="ts_http" name="user_agent">
+      <user_agent probability="100">Mozilla/5.0 (Windows; U; Windows NT 5.2; fr-FR; rv:1.7.8) Gecko/20050511 Firefox/1.0.4</user_agent>
+    </option>
+  </options>
+
+  <sessions>
+    <session name="http-example" probability="50" type="ts_http">
+      <request>
+        <http url="/" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="2" random="true"/>
+
+      <request>
+        <http url="/sentiment" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="2" random="true"/>
+
+      <request>
+        <http url="/sentiment?symbol=FB" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/sentiment?symbol=AAPL" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/sentiment?symbol=GOOGL" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/sentiment?symbol=TSLA" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/stocks" version="1.1" method="GET"/>
+      </request>
+
+      <request>
+        <http url="/stocks?symbol=FB" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/stocks?symbol=AAPL" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/stocks?symbol=GOOGL" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/stocks?symbol=TSLA" version="1.1" method="GET"/>
+      </request>
+
+      <thinktime value="10" random="true"/>
+    </session>
+
+    <session name="http-example1" probability="50" type="ts_http">
+      <setdynvars sourcetype="random_number" start="1" end="2500">
+        <var name="random_email_number"/>
+      </setdynvars>
+
+      <request subst="true">
+        <http url="/users/sign_in" version="1.1" method="POST" contents="user[email]=test%%_random_email_number%%@test.com&amp;user[password]=password&amp;user[password_confirmation]=password"/>
+      </request>
+
+      <request>
+        <http url="/dashboard" version="1.1" method="GET"/>
+      </request>
+      <thinktime value="2" random="true"/>
+
+      <request>
+        <http url="/dashboard/GOOGL" version="1.1" method="GET"/>
+      </request>
+      <thinktime value="15" random="true"/>
+      <request>
+        <http url="/favorite/create/127" version="1.1" method="POST"/>
+      </request>
+
+      <request>
+        <http url="/dashboard/TSLA" version="1.1" method="GET"/>
+      </request>
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/dashboard/FB" version="1.1" method="GET"/>
+      </request>
+      <thinktime value="10" random="true"/>
+
+      <request>
+        <http url="/dashboard/AAPL" version="1.1" method="GET"/>
+      </request>
+      <thinktime value="10" random="true"/>
+      <request>
+        <http url="/favorite/remove/204" version="1.1" method="POST"/>
+      </request>
+
+      <request subst="true">
+        <http url="/users/sign_out" version="1.1" method="POST">
+        </http>
+      </request>
+    </session>
+  </sessions>
+</tsung>
