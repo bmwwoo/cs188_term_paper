@@ -26,6 +26,8 @@
 \usepackage{extramarks} % Required for headers and footers
 \usepackage{graphicx} % Required to insert images
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage{natbib} % bibliography
+\usepackage{filecontents}
 
 % Margins
 \topmargin=-0.45in
@@ -117,6 +119,17 @@
 \date{} % Insert date here if you want it to appear below your name
 
 %----------------------------------------------------------------------------------------
+% Bibliography
+\begin{filecontents*}{ABCs.bib}
+@MISC{GitBranching,
+  author = {{Keith D. Gregory}},
+  title = {{Practical Git: A Workflow to Preserve Your Sanity}},
+  note = {[Online; accessed Nov 30, 2015]},
+  url = {http://www.kdgregory.com/images/scm.git/02-fishbone.gif}
+}
+\end{filecontents*}
+%------------------------------------------------------------------------------
+
 
 \begin{document}
 
@@ -150,10 +163,12 @@ Market Chirp is a stock recommendation web application developed in the context 
 \indent Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
 \vspace{10pt} % Question
 
-\problemAnswer{ % Answer
-\begin{center}
-\includegraphics[width=0.75\columnwidth]{example_figure} % Example image
-\end{center}
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.75\columnwidth]{resources/git.jpg} % Example image
+  \caption{Example of our Git branching technique, from \cite{GitBranching}.}
+  \label{fig:git}
+\end{figure}
 Development\\
 Through the development of Market Chirp, our team used an Agile framework. Here we had weekly sprint planning meetings to discuss where the project was headed along with retrospective meetings to gain a perspective of what we had accomplished or still had yet to implement over the past week. Tasks not completed by the specified sprint date were automatically moved into a backlog or icebox in order to be completed in future sprints. By using these stand-up meetings, our team was able to precisely figure out the tasks that needed to be finished and how our individual features were pushed into the big picture of the entire product and its scalability.
 \\
@@ -167,7 +182,6 @@ We also performed pair programming in certain scenarios such as when developing 
 \\
 Since Rails is a test driven development framework, it automatically created testing templates for the classes we developed. We made sure to follow test driven development in which one creates test cases for a feature before actually implementing the feature. By following TDD, edge cases were covered as we programmed out the features since we were aware of them beforehand. Since we created ample test cases, the majority of our code was covered and allowed us to be confident our website would not crash when scaled upward.
 \\
-}
 \end{homeworkProblem}
 
 %----------------------------------------------------------------------------------------
@@ -239,4 +253,6 @@ Since Rails is a test driven development framework, it automatically created tes
 
 %----------------------------------------------------------------------------------------
 
+\bibliographystyle{plainnat}
+\bibliography{ABCs}
 \end{document}

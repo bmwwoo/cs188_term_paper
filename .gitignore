@@ -3,3 +3,8 @@
 *.pdf
 *.toc
 *.gz
+
+# Ignore bibliography build files
+*.bib
+*.blg
+*.bbl
