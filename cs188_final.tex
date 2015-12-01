@@ -73,7 +73,7 @@
 \newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
 
 \newcommand{\homeworkProblemName}{}
-\newenvironment{homeworkProblem}[1][Problem \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\newenvironment{homeworkProblem}[1][Section \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
 \stepcounter{homeworkProblemCounter} % Increase counter for number of problems
 \renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
 \section{\homeworkProblemName} % Make a section in the document with the custom problem count
@@ -151,107 +151,51 @@
 
 % To have just one problem per page, simply put a \clearpage after each problem
 
-\begin{homeworkProblem}
+%\begin{homeworkProblem}
+\section{Introduction}
 Market Chirp is a stock recommendation web application developed in the context of UCLA CS 188/219, Scalable Internet Services in Fall 2015 by the team ABCs. The application analyzes tweet sentiments concerning certain stocks and recommends if the stock is bearish or bullish.
 \\
+\subsection{What we do} % TODO This should just be a statement, not an explanation
 \indent Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
 \\
 \indent In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
 \\
+\subsection{Our goal}
 \indent The goal of Market Chirp is to quickly analyze the public's opinion of high-quality stocks through short notes on Twitter. Since the feed of Tweets is queried in real time when a user searches for a certain stock, the sentiment analysis of a stock is the public's current opinion of is a stock is bullish or bearish. For example, if a stock is on the downhill trend for its market price but its Twitter sentiment is on the uptrend, one may take that as an indication to buy the stock since more people will then value the stock higher. Market Chirp's ultimate goal is not to predict the stock market as the sentiment is based only on the dataset of people tweeting about a stock but is to give insight on the predicted future of stocks based on public opinion.
 \\
+\subsection{How we do it}
 \indent Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
-\vspace{10pt} % Question
+%\vspace{10pt} % Question
 
+\section{Development Process}
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=0.75\columnwidth]{resources/git.jpg} % Example image
   \caption{Example of our Git branching technique, from \cite{GitBranching}.}
   \label{fig:git}
 \end{figure}
-Development\\
+\subsection{Planning}
 Through the development of Market Chirp, our team used an Agile framework. Here we had weekly sprint planning meetings to discuss where the project was headed along with retrospective meetings to gain a perspective of what we had accomplished or still had yet to implement over the past week. Tasks not completed by the specified sprint date were automatically moved into a backlog or icebox in order to be completed in future sprints. By using these stand-up meetings, our team was able to precisely figure out the tasks that needed to be finished and how our individual features were pushed into the big picture of the entire product and its scalability.
 \\
+
+\subsection{Scheduling}
 Pivotal Tracker guided us in following the Agile development framework. With Pivotal Tracker integrated with Github to keep track of certain features or issues, our commits and releases could be synced up to reflect the current status of the application. We were able to assign tickets to certain people in order to split the work up in an efficient manner. By modularizing the tasks, implementing the features and bug fixes was more smooth that using another development framework such as Waterfall Planning. As the quarter moved along however, Pivotal Tracker started being faded out as we were in constant connection with each other still keeping up to date where we should be with the project.
 \\
-Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
-\\
-Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
-\\
-We also performed pair programming in certain scenarios such as when developing our Memcached feature optimization. Pair programming allowed us to minimize our errors as we wrote our code since we had multiple eyes on the screen at a time. In doing so, our time of outlining a feature branch to pushing production ready code was optimized a substantial amount.
-\\
+
+\subsection{Automated testing}
 Since Rails is a test driven development framework, it automatically created testing templates for the classes we developed. We made sure to follow test driven development in which one creates test cases for a feature before actually implementing the feature. By following TDD, edge cases were covered as we programmed out the features since we were aware of them beforehand. Since we created ample test cases, the majority of our code was covered and allowed us to be confident our website would not crash when scaled upward.
 \\
-\end{homeworkProblem}
 
-%----------------------------------------------------------------------------------------
-%	PROBLEM 2
-%----------------------------------------------------------------------------------------
+Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
+\\
+\subsection{Version control}
+Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
+\\
 
-\begin{homeworkProblem}[Exercise \#\arabic{homeworkProblemCounter}] % Custom section title
-\lipsum[3] % Question
-
-%--------------------------------------------
-
-\begin{homeworkSection}{(a)} % Section within problem
-\lipsum[4]\vspace{10pt} % Question
-
-\problemAnswer{ % Answer
-\lipsum[5]
-}
-\end{homeworkSection}
-
-%--------------------------------------------
-
-\begin{homeworkSection}{(b)} % Section within problem
-\problemAnswer{ % Answer
-\lipsum[6]
-}
-\end{homeworkSection}
-
-%--------------------------------------------
-
-\end{homeworkProblem}
-
-%----------------------------------------------------------------------------------------
-%	PROBLEM 3
-%----------------------------------------------------------------------------------------
-
-\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}] % Roman numerals
-
-%--------------------------------------------
-
-\begin{homeworkSection}{\homeworkProblemName:~(a)} % Using the problem name elsewhere
-\problemAnswer{ % Answer
-\lipsum[7]
-}
-\end{homeworkSection}
-
-%--------------------------------------------
-
-\begin{homeworkSection}{\homeworkProblemName:~(b)}
-\lipsum[8]\vspace{10pt} % Question
-
-\problemAnswer{ % Answer
-\lipsum[9]
-}
-\end{homeworkSection}
-
-%--------------------------------------------
-
-\end{homeworkProblem}
-
-%----------------------------------------------------------------------------------------
-%	PROBLEM 4
-%----------------------------------------------------------------------------------------
-
-\begin{homeworkProblem}[Prob. \Roman{homeworkProblemCounter}] % Roman numerals
-\problemAnswer{ % Answer
-\lipsum[10]
-}
-\end{homeworkProblem}
-
-%----------------------------------------------------------------------------------------
+\subsection{Pair programming}
+We also performed pair programming in certain scenarios such as when developing our Memcached feature optimization. Pair programming allowed us to minimize our errors as we wrote our code since we had multiple eyes on the screen at a time. In doing so, our time of outlining a feature branch to pushing production ready code was optimized a substantial amount.
+\\
+%\end{homeworkProblem}
 
 \bibliographystyle{plainnat}
 \bibliography{ABCs}
