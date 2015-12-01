@@ -28,6 +28,10 @@
 \usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template
 \usepackage{natbib} % bibliography
 \usepackage{filecontents}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{siunitx}
+\pgfplotsset{compat=1.5}
 
 % Margins
 \topmargin=-0.45in
@@ -201,6 +205,77 @@ We also performed pair programming in certain scenarios such as when developing 
 
   \subsection{Vertical scaling}
   Vertical scaling, simply throwing more processing power at the problem, is simple but expensive.  We expected to get marginal performance gains by scaling vertically because our main bottleneck was the CPU bound Twitter sentiment analysis.
+
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[title=Vertical Scaling,
+        xlabel = Time (sec),
+        ylabel = 200/sec,
+        legend pos = outer north east,
+      ]
+      \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3med/data/200.csv};
+      \addplot[thick, blue] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3large/data/200.csv};
+      \addplot[thick, green] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3xlarge/data/200.csv};
+      \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m32xlarge/data/200.csv};
+      \addlegendentry{M3 Med}
+      \addlegendentry{M3 Large}
+      \addlegendentry{M3 XLarge}
+      \addlegendentry{M3 2XLarge}
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
+
+  \subsection{Horizontal scaling}
+  \begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[title=Horizontal Scaling,
+        xlabel = Time (sec),
+        ylabel = 200/sec,
+        legend pos = outer north east,
+      ]
+      \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3med/data/200.csv};
+      \addplot[thick, blue] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3large/data/200.csv};
+      \addplot[thick, green] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3xlarge/data/200.csv};
+      \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m32xlarge/data/200.csv};
+      \addlegendentry{M3 Med}
+      \addlegendentry{M3 Large}
+      \addlegendentry{M3 XLarge}
+      \addlegendentry{M3 2XLarge}
+      \end{axis}
+    \end{tikzpicture}
+  \end{center}
 \end{mainSection}
 
 \bibliographystyle{plainnat}
