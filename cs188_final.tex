@@ -31,6 +31,7 @@
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
 \usepackage{siunitx}
+\usepackage{float}
 \pgfplotsset{compat=1.5}
 
 % Margins
@@ -170,7 +171,7 @@ Market Chirp is a stock recommendation web application developed in the context 
 \end{mainSection}
 
 \begin{mainSection}{Development Process}
-\begin{figure}[htpb]
+\begin{figure}[h]
   \centering
   \includegraphics[width=0.75\columnwidth]{resources/git.jpg} % Example image
   \caption{Example of our Git branching technique (\cite{GitBranching})}
@@ -212,7 +213,7 @@ We also performed pair programming in certain scenarios such as when developing 
 
   The service was developed on our personal laptops, with all performance testing running on Amazon Web Services (AWS).  It was trivial for us to deploy new versions because we only had to deploy for performance testing, which was handled by our server provisioning scripts.\\
 
-\begin{figure}[htpb]
+\begin{figure}[H]
   \begin{center}
     \begin{tabular}{| l | r | r | r | }
       \hline
@@ -236,7 +237,7 @@ Figure \ref{tab:m3} shows the configurations of the various server sizes used fo
 When separate database servers were used (for example, in horizontal scaling), the database server was the same size as the application server (\texttt{db.m3med} was used for \texttt{m3.med}).
 
   \subsection{User simulation}
-  \begin{figure}[htpb]
+  \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
         \begin{axis}[title=Test User Arrival Rates,
@@ -310,76 +311,87 @@ When separate database servers were used (for example, in horizontal scaling), t
   \subsection{Vertical scaling}
   Vertical scaling, simply throwing more processing power at the problem, is simple but expensive.  We expected to get marginal performance gains by scaling vertically because our main bottleneck was the CPU bound Twitter sentiment analysis.
 
-  \begin{center}
-  \begin{tikzpicture}
-    \begin{axis}[title=Vertical Scaling,
-        xlabel = Time (sec),
-        ylabel = 200/sec,
-        legend pos = outer north east,
-      ]
-      \addplot[thick, orange] table [
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Vertical Scaling,
+            xlabel = Time (sec),
+            ylabel = 200/sec,
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/m3med/data/200.csv};
-      \addplot[thick, blue] table [
+          \addplot[thick, blue] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/m3large/data/200.csv};
-      \addplot[thick, green] table [
+          \addplot[thick, green] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/m3xlarge/data/200.csv};
-      \addplot[thick, magenta] table [
+          \addplot[thick, magenta] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/m32xlarge/data/200.csv};
-      \addlegendentry{M3 Med}
-      \addlegendentry{M3 Large}
-      \addlegendentry{M3 XLarge}
-      \addlegendentry{M3 2XLarge}
-      \end{axis}
-    \end{tikzpicture}
-  \end{center}
+          \addlegendentry{M3 Med}
+          \addlegendentry{M3 Large}
+          \addlegendentry{M3 XLarge}
+          \addlegendentry{M3 2XLarge}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of performance during vertical scaling.}
+      \label{graph:vertical}
+    \end{figure}
+
+    Figure \ref{graph:vertical} shows the result of our vertical scaling. As expected, when double the procesing power was thrown at the problem, the number of users processed per second roughly doubled.
 
   \subsection{Horizontal scaling}
-  \begin{center}
-  \begin{tikzpicture}
-    \begin{axis}[title=Horizontal Scaling,
-        xlabel = Time (sec),
-        ylabel = 200/sec,
-        legend pos = outer north east,
-      ]
-      \addplot[thick, orange] table [
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Horizontal Scaling,
+            xlabel = Time (sec),
+            ylabel = 200/sec,
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/multi_m3med/data/200.csv};
-      \addplot[thick, blue] table [
+          \addplot[thick, blue] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/multi_m3large/data/200.csv};
-      \addplot[thick, green] table [
+          \addplot[thick, green] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/multi_m3xlarge/data/200.csv};
-      \addplot[thick, magenta] table [
+          \addplot[thick, magenta] table [
               col sep=comma,
               x = X,
               y = Y,
             ] {resources/multi_m32xlarge/data/200.csv};
-      \addlegendentry{M3 Med}
-      \addlegendentry{M3 Large}
-      \addlegendentry{M3 XLarge}
-      \addlegendentry{M3 2XLarge}
-      \end{axis}
-    \end{tikzpicture}
-  \end{center}
+          \addlegendentry{M3 Med}
+          \addlegendentry{M3 Large}
+          \addlegendentry{M3 XLarge}
+          \addlegendentry{M3 2XLarge}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of performance during horizontal scaling.}
+      \label{graph:horizontal}
+    \end{figure}
+    Figure \ref{graph:horizontal} shows the result of our horizontal scaling. As expected, when double the amount of servers were thrown at the problem, the number of users processed per second doubled.  Unlike vertical scaling, horizontal scaling is essentially limitless, and is usually cheaper.
 
   \subsection{Memory Caching}
   Another method we implemented to spped up our application was to use a memory object caching system. We used memcached in our application through the "dalli" gem. The "dalli" gem stores the cache is stored in memory instead of on disk. Since memory is faster than disk, the read and write times of cache fragments were reduced. The memory cache appeared separately in each server. When the memory cache was full or the memory expired after a set amount of time, memcached flushed the old caches. By using memcached, the endpoint for the MySQL database was rarely hit as memcached was the first layer of data that a user should receive.\\
