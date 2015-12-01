@@ -236,7 +236,9 @@ We also performed pair programming in certain scenarios such as the development 
 
 Figure \ref{tab:m3} shows the configurations of the various server sizes used for all testing.  By minimizing differences in the testing setups, we were able to clearly show the effects of each optimization.\\
 
-When separate database servers were used (for example, in horizontal scaling), the database server was the same size as the application server (\texttt{db.m3med} was used for \texttt{m3.med}).
+When separate database servers were used (for example, in horizontal scaling), the database server was the same size as the application server (\texttt{db.m3med} was used for \texttt{m3.med}).\\
+
+After analyzing our common queries, we added indicies to our database to improve read performance.  These indicies reduced query time for reads, improving database performance for our most common operation.\\
 
   \subsection{User simulation}
   \begin{figure}[H]
