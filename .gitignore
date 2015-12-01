@@ -4,6 +4,8 @@
 *.toc
 *.gz
 *.temp
+*.swp
+*.swo
 
 # Ignore bibliography build files
 *.bib
