@@ -276,6 +276,11 @@ We also performed pair programming in certain scenarios such as when developing 
       \end{axis}
     \end{tikzpicture}
   \end{center}
+
+  \subsection{Memory Caching}
+  Another method we implemented to spped up our application was to use a memory object caching system. We used memcached in our application through the "dalli" gem. The "dalli" gem stores the cache is stored in memory instead of on disk. Since memory is faster than disk, the read and write times of cache fragments were reduced. The memory cache appeared separately in each server. When the memory cache was full or the memory expired after a set amount of time, memcached flushed the old caches. By using memcached, the endpoint for the MySQL database was rarely hit as memcached was the first layer of data that a user should receive.\\
+
+  We implemented memcached on the Yahoo! Finance data, the overall sentiment, and the average tweet.
 \end{mainSection}
 
 \bibliographystyle{plainnat}
