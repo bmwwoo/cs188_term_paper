@@ -116,6 +116,22 @@
 \end{filecontents*}
 %------------------------------------------------------------------------------
 
+%------------------------------------------------------------------------------
+% USER ARRIVAL RATES
+\begin{filecontents}{users.temp}
+X,Y
+0,1
+30,2
+60,4
+90,8
+120,16
+150,32
+180,64
+210,128
+240,256
+270,512
+\end{filecontents}
+%------------------------------------------------------------------------------
 
 \begin{document}
 
@@ -219,9 +235,31 @@ Figure \ref{tab:m3} shows the configurations of the various server sizes used fo
 
 When separate database servers were used (for example, in horizontal scaling), the database server was the same size as the application server (\texttt{db.m3med} was used for \texttt{m3.med}).
 
-% TODO Talk about how max user count limited our tests in time
-% TODO Show graph that illustrates the user arrival rate
-% TODO Talk about using small subset of stocks to ensure cache hits
+  \subsection{User simulation}
+  \begin{figure}[htpb]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Test User Arrival Rates,
+            xlabel = Time (sec),
+            ylabel = Users/sec,
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {users.temp};
+        \end{axis}
+      \end{tikzpicture}
+    \end{center}
+    \caption{Graph showing the number of test users sent from our Tsung server to our application server throughout the duration of the performance tests.}
+    \label{graph:users}
+  \end{figure}
+
+  Our Tsung tests used the test user arrival rates shown in Figure \ref{graph:users}.\\
+
+  Missing our slowest level of caching, our MySQL "caches" of Twitter sentiment data, and to a lessen extent Yahoo Finance data, causes $20+$ second delays.  Because of these unreasonably long delays, our service would have worker processes keeping those caches warm if we deployed this to the real world.  To simulate this effect in our tests, we limited our test users to interacting with a small subset of the real world stocks.  According to our tests, useres only care about Apple, Facebook, Google and Tesla stocks, which is unrealistic.  Another benefit of focusing on popular stocks is that we are guaranteed to always have enough Twitter data about each stock symbol.  Some of the less popular stock symbols would have 5 tweets or less, making both the data inaccurrate and the request too easy to strain the system.\\
+
 
   \subsection{Critical Path}
   Our critical path through our application was the path that we thought the average user was most likely to hit.  We had two user models, with a 50\% chance that either model was selected for each test user:
