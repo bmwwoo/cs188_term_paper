@@ -32,6 +32,8 @@
 \usepackage{pgfplotstable}
 \usepackage{siunitx}
 \usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds}
 \pgfplotsset{compat=1.5}
 
 % Margins
@@ -392,6 +394,27 @@ When separate database servers were used (for example, in horizontal scaling), t
       \label{graph:horizontal}
     \end{figure}
     Figure \ref{graph:horizontal} shows the result of our horizontal scaling. As expected, when double the amount of servers were thrown at the problem, the number of users processed per second doubled.  Unlike vertical scaling, horizontal scaling is essentially limitless, and is usually cheaper.
+
+    \begin{figure}[H]
+      \begin{center}
+        \begin{tikzpicture}[every node/.style={rectangle, fill=green,minimum width=15mm, minimum height=15mm,draw}]
+          \node[fill=orange] (lb) at (0,0) {LB};
+          \node (s0) at (-4,-2) {S0};
+          \node (s1) at (4,-2) {S1};
+          \node[fill=cyan] (db) at (0,-4) {DB};
+
+          \begin{scope}[on background layer]
+            \draw[->] (lb) edge (s0);
+            \draw[->] (lb) edge (s1);
+            \draw[->] (s0) edge (db);
+            \draw[->] (s1) edge (db);
+          \end{scope}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Network of Load Balancer, Servers, and Database Server}
+      \label{dig:horizontal}
+    \end{figure}
+    Figure \ref{dig:horizontal} shows the configuration of our load balancer, servers and database.  This method of scaling lets us easily add more application servers to increase our available processing power, while not having to deal with distributed databases or more complex data persistence layers (although we are able to improve the data persistence layer if we want).
 
   \subsection{Memory Caching}
   Another method we implemented to spped up our application was to use a memory object caching system. We used memcached in our application through the "dalli" gem. The "dalli" gem stores the cache is stored in memory instead of on disk. Since memory is faster than disk, the read and write times of cache fragments were reduced. The memory cache appeared separately in each server. When the memory cache was full or the memory expired after a set amount of time, memcached flushed the old caches. By using memcached, the endpoint for the MySQL database was rarely hit as memcached was the first layer of data that a user should receive.\\
