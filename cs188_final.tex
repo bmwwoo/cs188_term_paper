@@ -184,7 +184,7 @@ Through the development of Market Chirp, our team used an Agile framework. Here 
 \\
 
 \subsection{Scheduling}
-Pivotal Tracker guided us in following the Agile development framework. With Pivotal Tracker integrated with Github to keep track of certain features or issues, our commits and releases could be synced up to reflect the current status of the application. We were able to assign tickets to certain people in order to split the work up in an efficient manner. By modularizing the tasks, implementing the features and bug fixes was more smooth that using another development framework such as Waterfall Planning. As the quarter moved along however, Pivotal Tracker started being faded out as we were in constant connection with each other still keeping up to date where we should be with the project.
+Pivotal Tracker guided us in following the Agile development framework. With Pivotal Tracker integrated with Github to keep track of certain features or issues, our commits and releases could be synced up to reflect the current status of the application. We were able to assign tickets to certain people in order to split the work up in an efficient manner. By modularizing the tasks, implementing the features and bug fixes was more smooth than using another development framework such as Waterfall Planning. As the quarter moved along however, our use of Pivotal Tracker slowly faded out as we kept in constant contact with each other and remained up to with our progress on the project.
 \\
 
 \subsection{Automated testing}
@@ -198,20 +198,20 @@ Our version control management system was Git. By keeping the master branch as o
 \\
 
 \subsection{Pair programming}
-We also performed pair programming in certain scenarios such as when developing our Memcached feature optimization. Pair programming allowed us to minimize our errors as we wrote our code since we had multiple eyes on the screen at a time. In doing so, our time of outlining a feature branch to pushing production ready code was optimized a substantial amount.
+We also performed pair programming in certain scenarios such as the development of our Memcached client side caching optimization. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
 \\
 \end{mainSection}
 
 \begin{mainSection}{Testing}
   \subsection{Server configuration}
-  We used the following software packages for all of our testing:
+  We used the following software packages for the deployment of the production version of our application: 
   \begin{itemize}
     \item Nginx
     \item Phusion Passenger
     \item MySQL
   \end{itemize}
 
-  We modified the provided JavaScript Object Notation (JSON) files to configure our server with the proper environmental variables, letting us keep our secret keys out of our public version control.\\
+  We modified the provided cloud formation template's JavaScript Object Notation (JSON) files to configure our server with the proper environmental variables, letting us keep our secret keys out of our public version control.\\
 
   The service was developed on our personal laptops, with all performance testing running on Amazon Web Services (AWS).  It was trivial for us to deploy new versions because we only had to deploy for performance testing, which was handled by our server provisioning scripts.\\
 
@@ -261,7 +261,7 @@ When separate database servers were used (for example, in horizontal scaling), t
 
   Our Tsung tests used the test user arrival rates shown in Figure \ref{graph:users}.\\
 
-  Missing our slowest level of caching, our MySQL "caches" of Twitter sentiment data, and to a lessen extent Yahoo Finance data, causes $20+$ second delays.  Because of these unreasonably long delays, our service would have worker processes keeping those caches warm if we deployed this to the real world.  To simulate this effect in our tests, we limited our test users to interacting with a small subset of the real world stocks.  According to our tests, useres only care about Apple, Facebook, Google and Tesla stocks, which is unrealistic.  Another benefit of focusing on popular stocks is that we are guaranteed to always have enough Twitter data about each stock symbol.  Some of the less popular stock symbols would have 5 tweets or less, making both the data inaccurrate and the request too easy to strain the system.\\
+  Missing our slowest level of caching, our MySQL "caches" of Twitter sentiment data, and to a lesser extent Yahoo Finance data, causes $20+$ second delays.  Because of these unreasonably long delays, our service would have worker processes keeping those caches warm if we deployed this to the real world.  To simulate this effect in our tests, we limited our test users to interacting with a small subset of the real world stocks.  According to our tests, users only care about Apple, Facebook, Google and Tesla stocks, which is unrealistic.  Another benefit of focusing on popular stocks is that we are guaranteed to always have enough Twitter data about each stock symbol.  Some of the less popular stock symbols would have 5 tweets or less, making both the data inaccurrate and the request too easy to strain the system.\\
 
 
   \subsection{Critical Path}
@@ -292,7 +292,7 @@ When separate database servers were used (for example, in horizontal scaling), t
   \subsubsection{User is logged in}
   A logged in user would want to check their favorited stocks, which is most easily done through the Dashboard page.  From there, we thought the average user would check their stocks, look for a new one, favorite the new stock and drop one of their favorited stocks.  This user:
   \begin{enumerate}
-    \item User logs in
+    \item Logs in
     \item Visits their dashboard
     \item Visits the dashboard for GOOGL
     \item Favorites GOOGL
@@ -300,7 +300,7 @@ When separate database servers were used (for example, in horizontal scaling), t
     \item Visits the dashboard for FB
     \item Visits the dashboard for AAPL
     \item Removes AAPL from their favorite list
-    \item User logs out
+    \item Logs out
   \end{enumerate}
 
   \subsection{Initial testing}
@@ -417,9 +417,9 @@ When separate database servers were used (for example, in horizontal scaling), t
     Figure \ref{dig:horizontal} shows the configuration of our load balancer, servers and database.  This method of scaling lets us easily add more application servers to increase our available processing power, while not having to deal with distributed databases or more complex data persistence layers (although we are able to improve the data persistence layer if we want).
 
   \subsection{Memory Caching}
-  Another method we implemented to spped up our application was to use a memory object caching system. We used memcached in our application through the "dalli" gem. The "dalli" gem stores the cache is stored in memory instead of on disk. Since memory is faster than disk, the read and write times of cache fragments were reduced. The memory cache appeared separately in each server. When the memory cache was full or the memory expired after a set amount of time, memcached flushed the old caches. By using memcached, the endpoint for the MySQL database was rarely hit as memcached was the first layer of data that a user should receive.\\
+  Another method we implemented to speed up our application was to use a memory object caching system. We used memcached in our application through the "dalli" gem. The "dalli" gem stores the cache in memory instead of on disk. Since memory provides faster access times than disk, the read and write times of cache fragments were reduced. In order to provide this client-side caching, a new instance of memcached needed to be started within each server. When the memory cache was full or the memory expired after a set amount of time, we flushed the old caches. If there was still space but the cached item had expired, we immediately overwrote the old value with a current one. The need for a MySQL database was virtually eliminated when using a monolithic database scheme as this client-side cache became the first layer of data that a user received.\\
 
-  We implemented memcached on the Yahoo! Finance data, the overall sentiment, and the average tweet.
+  We implemented memcached on the Yahoo! Finance data, the overall sentiment, and the tweet which most closely reflected the sentiment of a stock.
 \end{mainSection}
 
 \bibliographystyle{plainnat}
