@@ -41,7 +41,7 @@
 
 % Set up the header and footer
 \pagestyle{fancy}
-\lhead{\hmwkTitle} % Top left header
+\lhead{\hmwkClass:\ \hmwkTitle} % Top left header
 \chead{} % Top center header
 \rhead{\firstxmark} % Top right header
 \lfoot{\lastxmark} % Bottom left footer
@@ -58,41 +58,24 @@
 %----------------------------------------------------------------------------------------
 
 % Header and footer for when a page split occurs within a problem environment
-\newcommand{\enterProblemHeader}[1]{
+\newcommand{\enterSectionHeader}[1]{
 \nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
 \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
 }
 
 % Header and footer for when a page split occurs between problem environments
-\newcommand{\exitProblemHeader}[1]{
+\newcommand{\exitSectionHeader}[1]{
 \nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
 \nobreak\extramarks{#1}{}\nobreak
 }
 
-\setcounter{secnumdepth}{0} % Removes default section numbers
-\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
-
-\newcommand{\homeworkProblemName}{}
-\newenvironment{homeworkProblem}[1][Section \arabic{homeworkProblemCounter}]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
-\stepcounter{homeworkProblemCounter} % Increase counter for number of problems
-\renewcommand{\homeworkProblemName}{#1} % Assign \homeworkProblemName the name of the problem
-\section{\homeworkProblemName} % Make a section in the document with the custom problem count
-\enterProblemHeader{\homeworkProblemName} % Header and footer within the environment
+\newcommand{\mainSectionName}{}
+\newenvironment{mainSection}[1]{ % Makes a new environment called homeworkProblem which takes 1 argument (custom name) but the default is "Problem #"
+\renewcommand{\mainSectionName}{#1} % Assign \homeworkProblemName the name of the problem
+\section{\mainSectionName} % Make a section in the document with the custom problem count
+\enterSectionHeader{\mainSectionName} % Header and footer within the environment
 }{
-\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
-}
-
-\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
-\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
-}
-
-\newcommand{\homeworkSectionName}{}
-\newenvironment{homeworkSection}[1]{ % New environment for sections within homework problems, takes 1 argument - the name of the section
-\renewcommand{\homeworkSectionName}{#1} % Assign \homeworkSectionName to the name of the section from the environment argument
-\subsection{\homeworkSectionName} % Make a subsection with the custom name of the subsection
-\enterProblemHeader{\homeworkProblemName\ [\homeworkSectionName]} % Header and footer within the environment
-}{
-\enterProblemHeader{\homeworkProblemName} % Header and footer after the environment
+\exitSectionHeader{\mainSectionName} % Header and footer after the environment
 }
 
 %----------------------------------------------------------------------------------------
@@ -152,7 +135,7 @@
 % To have just one problem per page, simply put a \clearpage after each problem
 
 %\begin{homeworkProblem}
-\section{Introduction}
+\begin{mainSection}{Introduction}
 Market Chirp is a stock recommendation web application developed in the context of UCLA CS 188/219, Scalable Internet Services in Fall 2015 by the team ABCs. The application analyzes tweet sentiments concerning certain stocks and recommends if the stock is bearish or bullish.
 \\
 \subsection{What we do} % TODO This should just be a statement, not an explanation
@@ -165,9 +148,9 @@ Market Chirp is a stock recommendation web application developed in the context 
 \\
 \subsection{How we do it}
 \indent Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
-%\vspace{10pt} % Question
+\end{mainSection}
 
-\section{Development Process}
+\begin{mainSection}{Development Process}
 \begin{figure}[htpb]
   \centering
   \includegraphics[width=0.75\columnwidth]{resources/git.jpg} % Example image
@@ -195,7 +178,7 @@ Our version control management system was Git. By keeping the master branch as o
 \subsection{Pair programming}
 We also performed pair programming in certain scenarios such as when developing our Memcached feature optimization. Pair programming allowed us to minimize our errors as we wrote our code since we had multiple eyes on the screen at a time. In doing so, our time of outlining a feature branch to pushing production ready code was optimized a substantial amount.
 \\
-%\end{homeworkProblem}
+\end{mainSection}
 
 \bibliographystyle{plainnat}
 \bibliography{ABCs}
