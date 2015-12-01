@@ -355,6 +355,7 @@ When separate database servers were used (for example, in horizontal scaling), t
     Figure \ref{graph:vertical} shows the result of our vertical scaling. As expected, when double the processing power was thrown at the problem, the number of users processed per second roughly doubled.
 
   \subsection{Horizontal scaling}
+  For horizontal scaling, we moved from a single server that handled both the application server and the databse to a network of servers (Figure \ref{graph:horizontal}).  This network contained an elastic load balancer (LB), two application servers (S0 and S1) and a MySQL server (DB).  This is a fairly standard horizontal scaling technique that makes it easy to increase the number of application servers dynamically (a side benefit of this is that each application server can be small, cheap, and unreliable as a new server can be spun up to take its place if it fails).
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
