@@ -161,15 +161,22 @@ X,Y
 Market Chirp is a stock recommendation web application developed in the context of UCLA CS 188/219, Scalable Internet Services in Fall 2015 by the team ABCs. The application analyzes Twitter's sentiment on all NASDAQ stocks and provides the user with the information required to make sound investment decisions.
 \\
 \subsection{What we do} % TODO This should just be a statement, not an explanation
-\indent Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
+Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
 \\
-\indent In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
 \\
+In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
+\\
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\columnwidth]{resources/dashboard.png} % Example image
+  \caption{Example dashboard containing stock history, sentiment, and favorites.}
+  \label{fig:git}
+\end{figure}
 \subsection{Our goal}
-\indent The goal of Market Chirp is to quickly analyze the public's opinion of high-quality stocks through short notes on Twitter. Since the feed of Tweets is queried in real time when a user searches for a certain stock, the sentiment analysis of a stock is the public's current opinion of whether a stock is bullish or bearish. For example, if a stock's market price is on a downhill trend but its Twitter sentiment is on an uptrend, one may take that as an indication to buy the stock. This is because the temperature of a company in the eye of the public is often a good indicator of their stock's future performance on the market. Market Chirp's ultimate goal is not to predict the stock market as the sentiment is based on limited dataset of people tweeting about a stock, however it can give insight into the future of the stock based on public opinion.
+The goal of Market Chirp is to quickly analyze the public's opinion of high-quality stocks through short notes on Twitter. Since the feed of Tweets is queried in real time when a user searches for a certain stock, the sentiment analysis of a stock is the public's current opinion of whether a stock is bullish or bearish. For example, if a stock's market price is on a downhill trend but its Twitter sentiment is on an uptrend, one may take that as an indication to buy the stock. This is because the temperature of a company in the eye of the public is often a good indicator of their stock's future performance on the market. Market Chirp's ultimate goal is not to predict the stock market as the sentiment is based on limited dataset of people tweeting about a stock, however it can give insight into the future of the stock based on public opinion.
 \\
 \subsection{How we do it}
-\indent Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
+Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
 \end{mainSection}
 \\
 
@@ -180,6 +187,7 @@ Market Chirp is a stock recommendation web application developed in the context 
   \caption{Example of our Git branching technique (\cite{GitBranching})}
   \label{fig:git}
 \end{figure}
+
 \subsection{Planning}
 Through the development of Market Chirp, our team used an Agile framework. Here we had weekly sprint planning meetings to discuss where the project was headed along with retrospective meetings to gain a perspective of what we had accomplished or still had yet to implement over the past week. Tasks not completed by the specified sprint date were automatically moved into a backlog or icebox in order to be completed in future sprints. By using these stand-up meetings, our team was able to precisely figure out the tasks that needed to be finished and how our individual features were pushed into the big picture of the entire product and its scalability.
 \\
@@ -204,7 +212,7 @@ We also performed pair programming in certain scenarios such as the development 
 \end{mainSection}
 
 \begin{mainSection}{Application Architecture}
-  Ruby on Rails' use of a MVC (Model View Controller) system allowed us to quickly prototype features during development, and later provided insulation between different aspects of our website. The user facing View provides the graphical interface with which they can see the result of their actions. When the user wants to interact with the application, say by submitting a form or searching for a stock, they are using a Controller. Lastly there is the Model which takes instructions from the Controller and updates the user's View. The Model also interacts with our application's database, in our case by keeping track of favorite stocks and cached data. 
+  Ruby on Rails' use of a MVC (Model View Controller) system allowed us to quickly prototype features during development, and later provided insulation between different aspects of our website. The user facing View provides the graphical interface with which they can see the result of their actions. When the user wants to interact with the application, say by submitting a form or searching for a stock, they are using a Controller. Lastly there is the Model which takes instructions from the Controller and updates the user's View. The Model also interacts with our application's database, in our case by keeping track of favorite stocks and cached data.
 \\
 
 \end{mainSection}
