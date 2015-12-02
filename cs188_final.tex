@@ -227,11 +227,6 @@ The gems we used include:
 \begin{mainSection}{Application Architecture}
   Ruby on Rails' use of a MVC (Model View Controller) system allowed us to quickly prototype features during development, and later provided insulation between different aspects of our website. The user facing View provides the graphical interface with which they can see the result of their actions. When the user wants to interact with the application, say by submitting a form or searching for a stock, they are using a Controller. Lastly there is the Model which takes instructions from the Controller and updates the user's View. The Model also interacts with our application's database, in our case by keeping track of favorite stocks and cached data.
 \\
-
-\end{mainSection}
-\pagebreak
-
-\begin{mainSection}{Architecture}
   \subsection{Database layout}
   \begin{figure}[H]
     \begin{tikzpicture}
@@ -264,6 +259,8 @@ The gems we used include:
     \label{fig:database_layout}
   \end{figure}
 \end{mainSection}
+
+\pagebreak
 
 \begin{mainSection}{Testing}
   \subsection{Server configuration}
