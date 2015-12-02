@@ -33,6 +33,7 @@
 \usepackage{siunitx}
 \usepackage{float}
 \usepackage{tikz}
+\usepackage{tikz-uml}
 \usetikzlibrary{backgrounds}
 \pgfplotsset{compat=1.5}
 
@@ -220,6 +221,40 @@ Another development strategy we made use of was pair programming. This was true 
 
 \end{mainSection}
 \pagebreak
+
+\begin{mainSection}{Architecture}
+  \subsection{Database layout}
+  \begin{figure}[H]
+    \begin{tikzpicture}
+      % COMPANY
+      \begin{umlclass}[x=5,y=5]{Company}{symbol : varchar(5)\\name : varchar(255)\\sector : varchar(255)\\industry : varchar(255)\\created\_at : datetime\\updated\_at : datetime\\
+        }{}
+      \end{umlclass}
+      % FAVORITE_COMPANY
+      \begin{umlclass}[x=0,y=0]{Favorite\_Company}{user\_id : foreign\_key\\company\_id : foreign\_key\\active : boolean\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % USER
+      \begin{umlclass}[x=11,y=0]{User}{email : varchar(255)\\encrypted\_password : varchar(255)\\reset\_password\_token : varchar(255)\\reset\_password\_sent\_at : datetime\\remember\_created\_at : datetime\\sign\_in\_count : int(4)\\current\_sign\_in\_at : datetime\\last\_sign\_in\_at : datetime\\current\_sign\_in\_ip : varchar(255)\\last\_sign\_in\_ip : varchar(255)\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % FINANCE_CACHE
+      \begin{umlclass}[x=0,y=10]{Finance\_Cache}{hist\_data : varchar(65535)\\curr\_data : varchar(65535)\\category : int(4)\\company\_id : foreign\_key\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % SENTIMENT_CACHE
+      \begin{umlclass}[x=11,y=10]{Sentiment\_Cache}{tweet\_when : datetime\\score : decimal\\tweet\_text : varchar(255)\\tweet\_author : varchar(255)\\num\_tweets : int(4)\\company\_id : foreign\_key\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      \umluniassoc[geometry=|-|]{Company}{Favorite\_Company}
+      \umluniassoc[geometry=|-|]{Finance\_Cache}{Company}
+      \umluniassoc[geometry=|-]{Sentiment\_Cache}{Company}
+      \umluniassoc[geometry=|-|]{User}{Favorite\_Company}
+    \end{tikzpicture}
+    \caption{Diagram of the database tables and how they are connected.}
+    \label{fig:database_layout}
+  \end{figure}
+\end{mainSection}
 
 \begin{mainSection}{Testing}
   \subsection{Server configuration}
