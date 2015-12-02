@@ -208,12 +208,32 @@ Travis CI was set up as a continuous integration service for building and testin
 To further minimize the bugs in our code and to follow the D.R.Y. practices, we ran Rubocop and Pre-commit before our commits. Rubocop is a Ruby static code analyzer that enforces many of the guidelines outlined in the community Ruby Style Guide. This linter analyzed all of the code in our repository and provided metrics that ensured our Ruby code was stylistically intact. Before we committed our code, Git fired off a pre-commit hook that ran Rubocop. If Rubocop returned any warnings on our code, our code could not be committed. Thus, our code was ensured to be up-to-date with the current stylistic guidlines.
 \\
 \subsection{Version control}
+<<<<<<< ef6b52e00b2b2948386cfb459c261928dda2ee23
 Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. Through constant rebasing of our branches, we were able to keep our development history clean and appear as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in any new features, our application's version control history remained clean.
 \\
 
 \subsection{Pair programming}
 Another development strategy we made use of was pair programming. This was true during the development of our Memcached server side caching optimization as well as during the implementation of Ruby's devise gem for logins. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
 \\
+=======
+Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
+
+\subsection{Pair programming}
+We also performed pair programming in certain scenarios such as the development of our Memcached server side caching optimization. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
+
+\subsection{Development Tools}
+We utilized several important rails gems that helped make the development of our application much easier. The gems listed below added important functionality such as user management and wrappers for APIs. Using the gems is better practice because it saves development time as we do not have to implement and debug code in house. These functionality provided in external gems is more robust and has been tested. 
+
+The gems we used include: 
+  \begin{enumerate}
+    \item \textbf{devise}: gem is a MVC based authentication solution for rails. It is flexible and can be easily customized based on individual requirements.
+    \item \textbf{sentimentalizer}: gem provides an implementation to run sentiment analysis on a block of texts. We integrated this gem manuall instead of using a gem file. We made this design decision to improve the quality of the sentiment analysis by passing custom training data consisting of manually scraped and labeled stock market tweets. This enabled the sentiment analyzer to better recognize stock market terms.
+    \item \textbf{twitter}: gem provides a clean iterface to the Twitter API. 
+    \item \textbf{yahoofinance}: gem provides a clean interface to the Yahoo Finance api for stock and historical data
+    \item \textbf{d3-rails}: gem provides the D3 library to create plots and graphs
+  \end{enumerate}
+
+>>>>>>> Add gems
 \end{mainSection}
 
 \begin{mainSection}{Application Architecture}
