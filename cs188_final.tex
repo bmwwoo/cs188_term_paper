@@ -33,6 +33,7 @@
 \usepackage{siunitx}
 \usepackage{float}
 \usepackage{tikz}
+\usepackage{tikz-uml}
 \usetikzlibrary{backgrounds}
 \pgfplotsset{compat=1.5}
 
@@ -161,11 +162,9 @@ X,Y
 \begin{mainSection}{Introduction}
 Market Chirp is a stock recommendation web application developed in the context of UCLA CS 188/219, Scalable Internet Services in Fall 2015 by the team ABCs. The application analyzes Twitter's sentiment on all NASDAQ stocks and provides the user with the information required to make sound investment decisions.
 \\
-\subsection{What we do} % TODO This should just be a statement, not an explanation
-Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
-\\
-\\
-In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
+
+\subsection{What we do}
+\indent Market Chrip provides users with an interface to quickly get historical and current data for any given stock. Market Chirp's defining feature is providing sentiment analysis of the stock based on influential and recent tweets so users gain valuable insight on what others are saying about the company performance. We provide users a platform to make a portfolio of their favorite companies and monitor their stock market performance.
 \\
 \begin{figure}[h]
   \centering
@@ -203,19 +202,63 @@ Since Rails is a test driven development framework, it automatically created tes
 
 Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
 \\
-\subsection{Version control}
-Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. Through constant rebasing of our branches, we were able to keep our development history clean and appear as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in any new features, our application's version control history remained clean.
+
+To further minimize the bugs in our code and to follow the D.R.Y. practices, we ran Rubocop and Pre-commit before our commits. Rubocop is a Ruby static code analyzer that enforces many of the guidelines outlined in the community Ruby Style Guide. This linter analyzed all of the code in our repository and provided metrics that ensured our Ruby code was stylistically intact. Before we committed our code, Git fired off a pre-commit hook that ran Rubocop. If Rubocop returned any warnings on our code, our code could not be committed. Thus, our code was ensured to be up-to-date with the current stylistic guidlines.
 \\
+\subsection{Version control}
+Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
 
 \subsection{Pair programming}
-Another development strategy we made use of was pair programming. This was true during the development of our Memcached server side caching optimization as well as during the implementation of Ruby's devise gem for logins. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
-\\
+We also performed pair programming in certain scenarios such as the development of our Memcached server side caching optimization. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
+
+\subsection{Important Gems Used For Development}
+We utilized several important rails gems that helped make the development of our application much easier. The gems listed below added important functionality such as user management and wrappers for APIs. Using the gems is better practice because it saves development time as we do not have to implement and debug code in house. These functionality provided in external gems is more robust and has been tested. 
+
+The gems we used include: 
+  \begin{enumerate}
+    \item \textbf{devise}: gem is a MVC based authentication solution for rails. It is flexible and can be easily customized based on individual requirements.
+    \item \textbf{sentimentalizer}: gem provides an implementation to run sentiment analysis on a block of texts. We integrated this gem manuall instead of using a gem file. We made this design decision to improve the quality of the sentiment analysis by passing custom training data consisting of manually scraped and labeled stock market tweets. This enabled the sentiment analyzer to better recognize stock market terms.
+    \item \textbf{twitter}: gem provides a clean iterface to the Twitter API. 
+    \item \textbf{yahoofinance}: gem provides a clean interface to the Yahoo Finance api for stock and historical data
+    \item \textbf{d3-rails}: gem provides the D3 library to create plots and graphs
+  \end{enumerate}
+
 \end{mainSection}
 
 \begin{mainSection}{Application Architecture}
   Ruby on Rails' use of a MVC (Model View Controller) system allowed us to quickly prototype features during development, and later provided insulation between different aspects of our website. The user facing View provides the graphical interface with which they can see the result of their actions. When the user wants to interact with the application, say by submitting a form or searching for a stock, they are using a Controller. Lastly there is the Model which takes instructions from the Controller and updates the user's View. The Model also interacts with our application's database, in our case by keeping track of favorite stocks and cached data.
 \\
-
+  \subsection{Database layout}
+  \begin{figure}[H]
+    \begin{tikzpicture}
+      % COMPANY
+      \begin{umlclass}[x=5,y=5]{Company}{symbol : varchar(5)\\name : varchar(255)\\sector : varchar(255)\\industry : varchar(255)\\created\_at : datetime\\updated\_at : datetime\\
+        }{}
+      \end{umlclass}
+      % FAVORITE_COMPANY
+      \begin{umlclass}[x=0,y=0]{Favorite\_Company}{user\_id : foreign\_key\\company\_id : foreign\_key\\active : boolean\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % USER
+      \begin{umlclass}[x=11,y=0]{User}{email : varchar(255)\\encrypted\_password : varchar(255)\\reset\_password\_token : varchar(255)\\reset\_password\_sent\_at : datetime\\remember\_created\_at : datetime\\sign\_in\_count : int(4)\\current\_sign\_in\_at : datetime\\last\_sign\_in\_at : datetime\\current\_sign\_in\_ip : varchar(255)\\last\_sign\_in\_ip : varchar(255)\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % FINANCE_CACHE
+      \begin{umlclass}[x=0,y=10]{Finance\_Cache}{hist\_data : varchar(65535)\\curr\_data : varchar(65535)\\category : int(4)\\company\_id : foreign\_key\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      % SENTIMENT_CACHE
+      \begin{umlclass}[x=11,y=10]{Sentiment\_Cache}{tweet\_when : datetime\\score : decimal\\tweet\_text : varchar(255)\\tweet\_author : varchar(255)\\num\_tweets : int(4)\\company\_id : foreign\_key\\created\_at : datetime\\updated\_at : datetime
+        }{}
+      \end{umlclass}
+      \umluniassoc[geometry=|-|]{Company}{Favorite\_Company}
+      \umluniassoc[geometry=|-|]{Finance\_Cache}{Company}
+      \umluniassoc[geometry=|-]{Sentiment\_Cache}{Company}
+      \umluniassoc[geometry=|-|]{User}{Favorite\_Company}
+    \end{tikzpicture}
+    \caption{Diagram of the database tables and how they are connected.}
+    \label{fig:database_layout}
+  \end{figure}
 \end{mainSection}
 
 \begin{mainSection}{Testing}
@@ -276,7 +319,7 @@ After analyzing our common queries, we added indicies to our database to improve
   \end{figure}
 
   Our Tsung tests used the test user arrival rates shown in Figure \ref{graph:users}. A tabulation of the phases of users arrival rates can be seen below.\\
-  
+
 \begin{figure}[H]
   \begin{center}
     \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c |}
@@ -464,8 +507,10 @@ After analyzing our common queries, we added indicies to our database to improve
   \begin{itemize}
     \item Market Chirp scaled linearly with both more application servers and more processing power.  Doubling either lead to double the users served per second.
     \item Using MySQL to cache computationally expensive data was an improvement over generating the same results each time, but it was far inferior to using Memcached.
+    \item Memcached lead to improvements in response time because it reduced database hits which were much slower compared to fetching from memory.
     \item Reducing third-party API calls required for page loading improved performance by reducing the number of times our servers had to hit a remote resource.
     \item Horizontal scaling is easier and cheaper to accomplish than vertical scaling in the long run.
+    \item Horizontal scaling is also more fault tolerant compared to vertical scaling. In the even that a server fails, it can be easily replaced with a new instance.
   \end{itemize}
 
 \end{mainSection}
