@@ -166,11 +166,12 @@ Market Chirp is a stock recommendation web application developed in the context 
 \indent In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
 \\
 \subsection{Our goal}
-\indent The goal of Market Chirp is to quickly analyze the public's opinion of high-quality stocks through short notes on Twitter. Since the feed of Tweets is queried in real time when a user searches for a certain stock, the sentiment analysis of a stock is the public's current opinion of is a stock is bullish or bearish. For example, if a stock is on the downhill trend for its market price but its Twitter sentiment is on the uptrend, one may take that as an indication to buy the stock since more people will then value the stock higher. Market Chirp's ultimate goal is not to predict the stock market as the sentiment is based only on the dataset of people tweeting about a stock but is to give insight on the predicted future of stocks based on public opinion.
+\indent The goal of Market Chirp is to quickly analyze the public's opinion of high-quality stocks through short notes on Twitter. Since the feed of Tweets is queried in real time when a user searches for a certain stock, the sentiment analysis of a stock is the public's current opinion of whether a stock is bullish or bearish. For example, if a stock's market price is on a downhill trend but its Twitter sentiment is on an uptrend, one may take that as an indication to buy the stock. This is because the temperature of a company in the eye of the public is often a good indicator of their stock's future performance on the market. Market Chirp's ultimate goal is not to predict the stock market as the sentiment is based on limited dataset of people tweeting about a stock, however it can give insight into the future of the stock based on public opinion.
 \\
 \subsection{How we do it}
 \indent Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
 \end{mainSection}
+\\
 
 \begin{mainSection}{Development Process}
 \begin{figure}[h]
@@ -200,6 +201,12 @@ Our version control management system was Git. By keeping the master branch as o
 \subsection{Pair programming}
 We also performed pair programming in certain scenarios such as the development of our Memcached server side caching optimization. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
 \\
+\end{mainSection}
+
+\begin{mainSection}{Application Architecture}
+  Ruby on Rails' use of a MVC (Model View Controller) system allowed us to quickly prototype features during development, and later provided insulation between different aspects of our website. The user facing View provides the graphical interface with which they can see the result of their actions. When the user wants to interact with the application, say by submitting a form or searching for a stock, they are using a Controller. Lastly there is the Model which takes instructions from the Controller and updates the user's View. The Model also interacts with our application's database, in our case by keeping track of favorite stocks and cached data. 
+\\
+
 \end{mainSection}
 
 \begin{mainSection}{Testing}
@@ -421,7 +428,7 @@ After analyzing our common queries, we added indicies to our database to improve
 
     We expect our database to be mostly read, with much fewer writes as users are likely to spend more of their time accessing stock data than they are favoriting or unfavoriting stocks.  Therefore, if we wanted to increase the performance of our data persistence layer, we would add read-only slaves with a write-master.  However, as seen in Section \ref{subsec:mem}, moving to Memcached eliminated the need for our MySQL database to cache the stock analysis and price data, reducing database hits.
 
-  \subsection{Memory caching} \label{subsec:mem}
+  \subsection{In-memory caching} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory object caching system. We used Memcached in our application through the \texttt{dalli} gem, which stores the cache in memory instead of on disk. Since memory provides faster access times than disk, the read and write times of cache fragments were reduced. In order to provide this server-side caching, a new instance of Memcached needed to be started within each server. When keys in the memory cache expired after 24 hours of inactivity, the keys were wiped to allow for newer updated writes. If there was still space but the cached item had expired, we immediately overwrote the old value with a current one. Memcached replaced our MySQL database as our main caching layer as it was faster than MySQL but had the same required functionality.\\
 
   We implemented Memcached on the Yahoo! Finance data, the overall sentiment, and the tweet which most closely reflected the sentiment of a stock.
