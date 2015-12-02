@@ -178,7 +178,7 @@ The goal of Market Chirp is to quickly analyze the public's opinion of high-qual
 \subsection{How we do it}
 Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The backend data store is a relational database management system, in our case MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build and deploy a scalable web service, this report will therefore discuss the deployment, performance and scalability of Market Chirp.
 \end{mainSection}
-\\
+\pagebreak
 
 \begin{mainSection}{Development Process}
 \begin{figure}[h]
@@ -203,11 +203,11 @@ Since Rails is a test driven development framework, it automatically created tes
 Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
 \\
 \subsection{Version control}
-Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
+Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. Through constant rebasing of our branches, we were able to keep our development history clean and appear as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in any new features, our application's version control history remained clean.
 \\
 
 \subsection{Pair programming}
-We also performed pair programming in certain scenarios such as the development of our Memcached server side caching optimization. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
+Another development strategy we made use of was pair programming. This was true during the development of our Memcached server side caching optimization as well as during the implementation of Ruby's devise gem for logins. Pair programming allowed us to minimize the errors in our code since we had multiple eyes on the screen at a time. One person could focus on hashing out the code while the other checked for syntactic or logical errors. In doing so, the time from the outlining of a feature to pushing production ready code was optimized and we were able to save a substantial amount of time.
 \\
 \end{mainSection}
 
@@ -216,6 +216,7 @@ We also performed pair programming in certain scenarios such as the development 
 \\
 
 \end{mainSection}
+\pagebreak
 
 \begin{mainSection}{Testing}
   \subsection{Server configuration}
@@ -244,12 +245,10 @@ We also performed pair programming in certain scenarios such as the development 
       2XLarge & 8 & 30.00 & 8 \\
       \hline
     \end{tabular}
-    \caption{Table of server configurations.  These settings were used for all tests.  For a server with $n$ cores, $n$ worker processes were used.  Each worker process was single threaded.}
+    \caption{Table of server configurations.  These settings were used for all tests.  For a server with $n$ cores, $n$ worker processes were used.  Each worker process was single threaded. By minimizing differences in the testing setups, we were able to clearly show the effects of each optimization.}
     \label{tab:m3}
   \end{center}
 \end{figure}
-
-Figure \ref{tab:m3} shows the configurations of the various server sizes used for all testing.  By minimizing differences in the testing setups, we were able to clearly show the effects of each optimization.\\
 
 When separate database servers were used (for example, in horizontal scaling), the database server was the same size as the application server (\texttt{db.m3med} was used for \texttt{m3.med}).\\
 
@@ -276,9 +275,24 @@ After analyzing our common queries, we added indicies to our database to improve
     \label{graph:users}
   \end{figure}
 
-  Our Tsung tests used the test user arrival rates shown in Figure \ref{graph:users}.\\
+  Our Tsung tests used the test user arrival rates shown in Figure \ref{graph:users}. A tabulation of the phases of users arrival rates can be seen below.\\
+  
+\begin{figure}[H]
+  \begin{center}
+    \begin{tabular}{| c | c | c | c | c | c | c | c | c | c | c |}
+      \hline
+      \multicolumn{11}{ |c| }{10 Phases of user arrivals}\\
+      \hline
+       Phase Number & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10\\
+      \hline
+      New users per second & 1 & 2 & 4 & 8 & 16 & 32 & 64 & 128 & 256 & 512\\
+      \hline
+    \end{tabular}
+  \end{center}
+  \caption{Table listing the number of users arriving per second during each phase of the test.}
+\end{figure}
 
-  Missing our slowest level of caching, our MySQL "caches" of Twitter sentiment data, and to a lesser extent Yahoo! Finance data, causes $20+$ second delays.  Because of these unreasonably long delays, our service would have worker processes keeping those caches warm if we deployed this to the real world.  To simulate this effect in our tests, we limited our test users to interacting with a small subset of the real world stocks and we warmed up the cache before running the tests.  According to our tests, users only care about Apple, Facebook, Google and Tesla stocks, which, while unrealistic, is a useful simulation for comparing performance tests.  Another benefit of focusing on popular stocks is that we are guaranteed to always have enough Twitter data about each stock symbol.  Some of the less popular stock symbols would have 5 tweets or less, making both the data inaccurrate and the request too easy to strain the system.\\
+  Missing our slowest level of caching, our MySQL "caches" of Twitter sentiment data, and to a lesser extent Yahoo! Finance data, causes $20+$ second delays.  Because of these unreasonably long delays, our service would have worker processes keeping those caches warm if we deployed this to the real world.  To simulate this effect in our tests, we limited our test users to interacting with a small subset of the real world stocks and we warmed up the cache before running the tests.  According to our tests, users only care about Apple, Facebook, Google and Tesla stocks, which, while unrealistic, is a useful simulation for comparing performance tests.  Another benefit of focusing on popular stocks is that we are guaranteed to always have enough Twitter data about each stock symbol.  Some of the less popular stock symbols would have 5 tweets or less, making both the data inaccurate and the request too easy to strain the system.\\
 
 
   \subsection{Critical Path}
@@ -335,7 +349,7 @@ After analyzing our common queries, we added indicies to our database to improve
       \begin{tikzpicture}
         \begin{axis}[title=Vertical Scaling,
             xlabel = Time (sec),
-            ylabel = 200/sec,
+            ylabel = 200 users/sec,
             legend pos = outer north east,
           ]
           \addplot[thick, orange] table [
@@ -372,13 +386,13 @@ After analyzing our common queries, we added indicies to our database to improve
     Figure \ref{graph:vertical} shows the result of our vertical scaling. As expected, when double the processing power was thrown at the problem, the number of users processed per second roughly doubled.
 
   \subsection{Horizontal scaling}
-  For horizontal scaling, we moved from a single server that handled both the application server and the databse to a network of servers (Figure \ref{graph:horizontal}).  This network contained an elastic load balancer (LB), two application servers (S0 and S1) and a MySQL server (DB).  This is a fairly standard horizontal scaling technique that makes it easy to increase the number of application servers dynamically (a side benefit of this is that each application server can be small, cheap, and unreliable as a new server can be spun up to take its place if it fails).
+  For horizontal scaling, we moved from a single server that handled both the application server and the database to a network of servers (Figure \ref{graph:horizontal}).  This network contained an elastic load balancer (LB), two application servers (S0 and S1) and a MySQL server (DB).  This is a fairly standard horizontal scaling technique that makes it easy to increase the number of application servers dynamically (a side benefit of this is that each application server can be small, cheap, and unreliable as a new server can be spun up to take its place if it fails).
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
         \begin{axis}[title=Horizontal Scaling,
             xlabel = Time (sec),
-            ylabel = 200/sec,
+            ylabel = 200 users/sec,
             legend pos = outer north east,
           ]
           \addplot[thick, orange] table [
@@ -446,8 +460,9 @@ After analyzing our common queries, we added indicies to our database to improve
 % CONCLUSION
 \begin{mainSection}{Conclusion}
   % TODO Add more items
+  From the development and testing of MarketChirp, we learned a few things about both deploying an application and scaling it to handle the arrival of hundreds of concurrent visitors:
   \begin{itemize}
-    \item Market Chirp scaled linearly with both more application servers and more processing power.  Doubling either lead to a double the users served per second.
+    \item Market Chirp scaled linearly with both more application servers and more processing power.  Doubling either lead to double the users served per second.
     \item Using MySQL to cache computationally expensive data was an improvement over generating the same results each time, but it was far inferior to using Memcached.
     \item Reducing third-party API calls required for page loading improved performance by reducing the number of times our servers had to hit a remote resource.
     \item Horizontal scaling is easier and cheaper to accomplish than vertical scaling in the long run.
