@@ -163,7 +163,7 @@ Market Chirp is a stock recommendation web application developed in the context 
 \subsection{What we do} % TODO This should just be a statement, not an explanation
 Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
 \\
-\\
+
 In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
 \\
 \begin{figure}[h]
@@ -201,6 +201,9 @@ Since Rails is a test driven development framework, it automatically created tes
 \\
 
 Travis CI was set up as a continuous integration service for building and testing project. We created numerous test cases that would be run each commit to see the version control's reliability. Connecting Travis CI to Github allowed us to keep commiting new code and test its reliability and keep it bug free.
+\\
+
+To further minimize the bugs in our code and to follow the D.R.Y. practices, we ran Rubocop and Pre-commit before our commits. Rubocop is a Ruby static code analyzer that enforces many of the guidelines outlined in the community Ruby Style Guide. This linter analyzed all of the code in our repository and provided metrics that ensured our Ruby code was stylistically intact. Before we committed our code, Git fired off a pre-commit hook that ran Rubocop. If Rubocop returned any warnings on our code, our code could not be committed. Thus, our code was ensured to be up-to-date with the current stylistic guidlines.
 \\
 \subsection{Version control}
 Our version control management system was Git. By keeping the master branch as our production branch, our releases on AWS were always in sync with the latest release on our remote Github. We all worked on separate branches and used pull requests to merge our new code into the other branches eventually merging into master. By constantly rebasing our branches, our development history is clean and looks as though only one person had developed it. Separating the features and bug fixes into their own respective branch allowed each developer to focus on his own feature without conflicting with other developers. After merging in the features, the application's version control was clean.
