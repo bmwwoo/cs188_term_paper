@@ -161,8 +161,9 @@ X,Y
 \begin{mainSection}{Introduction}
 Market Chirp is a stock recommendation web application developed in the context of UCLA CS 188/219, Scalable Internet Services in Fall 2015 by the team ABCs. The application analyzes Twitter's sentiment on all NASDAQ stocks and provides the user with the information required to make sound investment decisions.
 \\
-\subsection{What we do} % TODO This should just be a statement, not an explanation
-Market Chirp analyzes over 2,800 stocks in the New York Stock Exchange. Once a user creates an account, an aggregate of data appears in the dashboard. In the dashboard after selecting a stock, one can view the Twitter feed, the tweet sentiment of the stock, and the stock history. Common stock data such as the market cap and current versus historical stock price is gathered from Yahoo! Finance's API. In addition, Market Chirp takes a mix of the most influential and most recent tweets containing the current stock ticker's symbol of the past twenty-four hours and runs the tweets through a sentiment analyzer. The average of the sentiments is displayed along with a tweet that most closely matches the sentiment.
+
+\subsection{What we do}
+\indent Market Chrip provides users with an interface to quickly get historical and current data for any given stock. Market Chirp's defining feature is providing sentiment analysis of the stock based on influential and recent tweets so users gain valuable insight on what others are saying about the company performance. We provide users a platform to make a portfolio of companies and monitor their stock market performance.
 \\
 
 In addition, one can favorite stocks to keep a running list of stocks to view with ease at later times. The favorited stocks appear in the sidebar and can be unfavorited at anytime.
@@ -502,8 +503,10 @@ After analyzing our common queries, we added indicies to our database to improve
   \begin{itemize}
     \item Market Chirp scaled linearly with both more application servers and more processing power.  Doubling either lead to double the users served per second.
     \item Using MySQL to cache computationally expensive data was an improvement over generating the same results each time, but it was far inferior to using Memcached.
+    \item Memcached lead to improvements in response time because it reduced database hits which were much slower compared to fetching from memory.
     \item Reducing third-party API calls required for page loading improved performance by reducing the number of times our servers had to hit a remote resource.
     \item Horizontal scaling is easier and cheaper to accomplish than vertical scaling in the long run.
+    \item Horizontal scaling is also more fault tolerant compared to vertical scaling. In the even that a server fails, it can be easily replaced with a new instance.
   \end{itemize}
 
 \end{mainSection}
