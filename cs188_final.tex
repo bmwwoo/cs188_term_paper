@@ -427,6 +427,21 @@ After analyzing our common queries, we added indicies to our database to improve
   We implemented Memcached on the Yahoo! Finance data, the overall sentiment, and the tweet which most closely reflected the sentiment of a stock.
 \end{mainSection}
 
+%------------------------------------------------------------------------------
+% CONCLUSION
+\begin{mainSection}{Conclusion}
+  % TODO Add more items
+  \begin{itemize}
+    \item Market Chirp scaled linearly with both more application servers and more processing power.  Doubling either lead to a double the users served per second.
+    \item Using MySQL to cache computationally expensive data was an improvement over generating the same results each time, but it was far inferior to using Memcached.
+    \item Reducing third-party API calls required for page loading improved performance by reducing the number of times our servers had to hit a remote resource.
+    \item Horizontal scaling is easier and cheaper to accomplish than vertical scaling in the long run.
+  \end{itemize}
+
+\end{mainSection}
+%------------------------------------------------------------------------------
+% BIBLIOGRAPHY
 \bibliographystyle{plainnat}
 \bibliography{ABCs}
+%------------------------------------------------------------------------------
 \end{document}
