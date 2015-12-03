@@ -118,7 +118,6 @@
         <li><a href="report.html#network">Network Throughput</a></li>
         <li><a href="report.html#count">Counters</a></li>
         <li><a href="report.html#http_status">HTTP status</a></li>
-        <li><a href="report.html#errors">Errors</a></li>
       </ul>
 
       <h2><a class="subtitle" href="graph.html">Graphs Report </a></h2>
@@ -127,7 +126,6 @@
         <li><a href="graph.html#throughput">Throughput graphs</a></li>
         <li><a href="graph.html#users">Simultaneous Users</a></li>
         <li><a href="graph.html#http_status">HTTP status</a></li>
-        <li><a href="graph.html#errors">Errors</a></li>
      </ul>
       <h2><a class="subtitle" href="test_m3large.xml">XML Config file</a></h2>
     </div>
@@ -146,35 +144,35 @@
   </tr>
      <tr>
 		<td class="stats">connect</td>
-		<td class="stats">57.67 sec </td>
-		<td class="stats">1.69 msec</td>
-		<td class="stats">25.9 / sec</td>
-		<td class="stats">13.03 sec </td>
-		<td class="stats">4029 </td>
+		<td class="stats">22.92 sec </td>
+		<td class="stats">1.59 msec</td>
+		<td class="stats">31.6 / sec</td>
+		<td class="stats">3.30 sec </td>
+		<td class="stats">2834 </td>
      </tr>
      <tr>
 		<td class="stats">page</td>
-		<td class="stats">16.89 sec </td>
-		<td class="stats">2.34 msec</td>
-		<td class="stats">118.4 / sec</td>
-		<td class="stats">3.55 sec </td>
-		<td class="stats">20469 </td>
+		<td class="stats">6.24 sec </td>
+		<td class="stats">0.18 sec</td>
+		<td class="stats">116.2 / sec</td>
+		<td class="stats">2.58 sec </td>
+		<td class="stats">14782 </td>
      </tr>
      <tr>
 		<td class="stats">request</td>
-		<td class="stats">15.07 sec </td>
-		<td class="stats">2.03 msec</td>
-		<td class="stats">147.3 / sec</td>
-		<td class="stats">3.22 sec </td>
-		<td class="stats">25798 </td>
+		<td class="stats">5.14 sec </td>
+		<td class="stats">0.15 sec</td>
+		<td class="stats">144.9 / sec</td>
+		<td class="stats">2.08 sec </td>
+		<td class="stats">18648 </td>
      </tr>
      <tr>
 		<td class="stats">session</td>
-		<td class="stats">1mn  35sec </td>
-		<td class="stats">15.74 sec</td>
-		<td class="stats">13.4 / sec</td>
-		<td class="stats">1mn  11sec </td>
-		<td class="stats">2015 </td>
+		<td class="stats">1mn  25sec </td>
+		<td class="stats">24.79 sec</td>
+		<td class="stats">12.8 / sec</td>
+		<td class="stats">1mn  9sec </td>
+		<td class="stats">1342 </td>
      </tr>
  </table>
 </div>
@@ -196,13 +194,13 @@
   </tr>
      <tr>
 		<td class="stats">size_rcv</td>
-		<td class="stats">1.71 Mbits/sec</td>
-		<td class="stats">19.20 MB</td>
+		<td class="stats">3.09 Mbits/sec</td>
+		<td class="stats">82.29 MB</td>
      </tr>
      <tr>
 		<td class="stats">size_sent</td>
-		<td class="stats">279.51 Kbits/sec</td>
-		<td class="stats">6.05 MB</td>
+		<td class="stats">346.75 Kbits/sec</td>
+		<td class="stats">5.97 MB</td>
      </tr>
  </table>
 </div>
@@ -219,46 +217,29 @@
   <tr><th class="stats">Name</th> <th class="stats">Max</th> </tr>
      <tr>
 		<td class="stats">connected</td>
-		<td class="stats">1301 </td>
+		<td class="stats">1215 </td>
      </tr>
      <tr>
 		<td class="stats">finish_users_count</td>
-		<td class="stats">2133 </td>
+		<td class="stats">1461 </td>
      </tr>
      <tr>
 		<td class="stats">newphase</td>
-		<td class="stats">9 </td>
+		<td class="stats">8 </td>
      </tr>
      <tr>
 		<td class="stats">users</td>
-		<td class="stats">15000 </td>
+		<td class="stats">13234 </td>
      </tr>
      <tr>
 		<td class="stats">users_count</td>
-		<td class="stats">16545 </td>
+		<td class="stats">14695 </td>
      </tr>
  </table>
 </p>
 </div>
 
 
-<div id="errors">
- <h3>Errors</h3>
- <table class="stats">
-  <tr><th class="stats">Name</th> <th class="stats">Highest Rate</th><th class="stats">Total number</th>
-  </tr>
-     <tr>
-		<td class="stats">error_connect_econnrefused</td>
-		<td class="stats">0.3 / sec</td>
-		<td class="stats">4 </td>
-     </tr>
-     <tr>
-		<td class="stats">error_connect_etimedout</td>
-		<td class="stats">47.4 / sec</td>
-		<td class="stats">1232 </td>
-     </tr>
- </table>
-</div>
 
 
 
@@ -270,28 +251,33 @@
   </tr>
      <tr>
 		<td class="stats">200</td>
-		<td class="stats">4.1 / sec</td>
-		<td class="stats">260</td>
+		<td class="stats">8.6 / sec</td>
+		<td class="stats">1852</td>
      </tr>
      <tr>
 		<td class="stats">302</td>
-		<td class="stats">2.5 / sec</td>
-		<td class="stats">80</td>
+		<td class="stats">2.1 / sec</td>
+		<td class="stats">159</td>
      </tr>
      <tr>
 		<td class="stats">404</td>
-		<td class="stats">0.2 / sec</td>
-		<td class="stats">3</td>
+		<td class="stats">1.7 / sec</td>
+		<td class="stats">171</td>
+     </tr>
+     <tr>
+		<td class="stats">406</td>
+		<td class="stats">1.1 / sec</td>
+		<td class="stats">66</td>
      </tr>
      <tr>
 		<td class="stats">500</td>
-		<td class="stats">3.6 / sec</td>
-		<td class="stats">529</td>
+		<td class="stats">4.9 / sec</td>
+		<td class="stats">444</td>
      </tr>
      <tr>
 		<td class="stats">503</td>
-		<td class="stats">144.8 / sec</td>
-		<td class="stats">25907</td>
+		<td class="stats">134.8 / sec</td>
+		<td class="stats">17206</td>
      </tr>
  </table>
 </div>

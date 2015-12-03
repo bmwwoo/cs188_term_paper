@@ -492,6 +492,8 @@ After analyzing our common queries, we added indices to our database to
 improve read performance.  These indices reduced query time for reads,
 improving database performance for our most common operation.\\
 
+For all of our testing, we used a database that was seeded with 2,500 user accounts.  Each user had three favorites, with a fourth added during the test. This let our database have over 10,000 rows (especially after all of the company data was seeded).  For our Memcached test, discussed in depth in Section \ref{subsec:mem}, we used a database seeded with 25,000 user accounts for a database with over 100,000 rows.\\
+
   \subsection{User simulation}
   \begin{figure}[H]
     \begin{center}
@@ -860,7 +862,7 @@ improving database performance for our most common operation.\\
     to Memcached eliminated the need for our MySQL database to cache the stock
     analysis and price data, reducing database hits.
 
-  \subsection{In-memory caching} \label{subsec:mem}
+  \subsection{Memcached} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory
   object caching system. We used Memcached in our application through the
   \texttt{dalli} gem, which stores the cache in memory instead of on disk.
@@ -876,6 +878,10 @@ improving database performance for our most common operation.\\
   We implemented Memcached on the Yahoo! Finance data, the overall sentiment,
   and the tweet which most closely reflected the sentiment of a stock.
 
+  \subsubsection{Performance testing results}
+  We did our Memcached testing on a single \texttt{m3.Large} instance.  As shown in Figure \ref{graph:memcached}, Memcached let us serve more uses per second, on average.  Figure \ref{graph:memcached_latency} shows the latency per request over the time of the tests.\\
+
+  The little difference that Memcached made versus the MySQL caching method shows that the MySQL was not our main bottleneck.  If our database was our main bottleneck, we should have seen a larger performance improvement by switching to Memcached, as it significantly reduced the number of database hits per page load.
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
@@ -889,7 +895,7 @@ improving database performance for our most common operation.\\
               x = X,
               y = Y,
             ] {resources/mem_m3large/data/200.csv};
-          \addplot[thick, magenta] table [
+          \addplot[thick, blue] table [
               col sep=comma,
               x = X,
               y = Y,
@@ -900,7 +906,7 @@ improving database performance for our most common operation.\\
         \end{tikzpicture}
       \end{center}
       \caption{Graph of performance with Memcached.}
-      \label{graph:memached}
+      \label{graph:memcached}
     \end{figure}
 
   \begin{figure}[H]
@@ -916,7 +922,7 @@ improving database performance for our most common operation.\\
               x = X,
               y = Y,
             ] {resources/mem_m3large/data/request.csv};
-          \addplot[thick, magenta] table [
+          \addplot[thick, blue] table [
               col sep=comma,
               x = X,
               y = Y,
@@ -926,7 +932,7 @@ improving database performance for our most common operation.\\
           \end{axis}
         \end{tikzpicture}
       \end{center}
-      \caption{Graph of latency using Memached.}
+      \caption{Graph of latency using Memcached.}
       \label{graph:memcached_latency}
     \end{figure}
 \end{mainSection}
