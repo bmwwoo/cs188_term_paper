@@ -628,7 +628,7 @@ for a database with over 100,000 rows.\\
   client side graphing library read in that JSON.  It made more sense to store
   the JSON received from Yahoo! Finance in the same format that the graph
   required, than it did to parse the JSON, store each value individually, and
-  read those values out as JSON later. 
+  read those values out as JSON later.
 
   \subsection{Vertical scaling}
   Vertical scaling, simply throwing more processing power at the problem, is
@@ -819,16 +819,16 @@ for a database with over 100,000 rows.\\
       \caption{Graph of performance during horizontal scaling.}
       \label{graph:horizontal}
     \end{figure}
-    Figure \ref{graph:horizontal} shows the result of our horizontal scaling.
-    As expected, when double the amount of servers were thrown at the problem,
-    the number of users processed per second doubled.  Unlike vertical scaling,
-    horizontal scaling is essentially limitless, and is usually cheaper.
-    Below, we can also see that the request duration for each user also
-    decreased in a proportionally similar manner. Longer response times
-    correspond to delays that are visibly noticeable to a user, so we want to
-    strike a balance between this latency and cost of additional servers. As we
-    get closer to zero latency, we see the effects of diminishing returns on
-    additional servers.\\
+    Figure \ref{graph:horizontal} and \ref{graph:horizontal_latency} show the
+    result of both horizontal and vertical scaling. As expected, when double
+    the amount of servers were thrown at the problem, the number of users
+    processed per second doubled.  Unlike vertical scaling, horizontal scaling
+    is essentially limitless, and is usually cheaper. Below, we can also see
+    that the request duration for each user also decreased in a proportionally
+    similar manner. Longer response times correspond to delays that are visibly
+    noticeable to a user, so we want to strike a balance between this latency
+    and cost of additional servers. As we get closer to zero latency, we see
+    the effects of diminishing returns.\\
 
   \begin{figure}[H]
     \begin{center}
@@ -881,17 +881,6 @@ for a database with over 100,000 rows.\\
     \httpTable{XLarge}{35}{7001}{1372.7}{80826}
     \httpTable{2XLarge}{61.2}{10429}{1319.1}{60134}
 
-	\subsubsection{Combined Scaling}
-	Using both vertical scaling and horizontal scaling, we set up a load
-	balanced system consisting of two m3.2xlarge instances. The response in terms
-	of users per second can be seen in Figure \ref{graph:horizontal}. In terms of
-	simultaneous users that our app is able to handle, we also saw significant
-	improvement. With our initial tests on the m3.med instance, we peaked at about
-	800 concurrent users, however after scaling up to a 2XLarge instance and
-	adding load balancing between two of these servers, we were able to handle up
-	to 7400 users before the number of connected users began to diverge from the
-	number of users attempting to connect.
-
     \subsubsection{Future improvements}
     We expect our database to be mostly read, with much fewer writes as users
     are likely to spend more of their time accessing stock data than they are
@@ -904,6 +893,7 @@ for a database with over 100,000 rows.\\
     toward achieving high-availability. This could involve using Amazon's RDS
     and Route 53 systems to have databases which cover different availability
     zones and regional domains.
+    \pagebreak
 
   \subsection{Memcached} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory
