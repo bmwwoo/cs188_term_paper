@@ -88,9 +88,7 @@
 \exitSectionHeader{\mainSectionName} % Header and footer after the environment
 }
 
-\newcounter{httpTableCounter}
 \newcommand{\httpTable}[5]{
-  \stepcounter{httpTableCounter}
   \begin{figure}[H]
     \begin{center}
       \begin{tabular}{|l|r|r|}
@@ -493,7 +491,7 @@ improving database performance for our most common operation.\\
     \begin{center}
       \begin{tikzpicture}
         \begin{axis}[title=Test User Arrival Rates,
-            xlabel = Time (sec),
+            xlabel = Time in test (sec),
             ylabel = Users/sec,
             legend pos = outer north east,
           ]
@@ -636,7 +634,7 @@ improving database performance for our most common operation.\\
     \begin{center}
       \begin{tikzpicture}
         \begin{axis}[title=Vertical Scaling,
-            xlabel = Time (sec),
+            xlabel = Time in test (sec),
             ylabel = Users/sec,
             legend pos = outer north east,
           ]
@@ -674,6 +672,45 @@ improving database performance for our most common operation.\\
     Figure \ref{graph:vertical} shows the result of our vertical scaling. As
     expected, when double the processing power was thrown at the problem, the
     number of users processed per second roughly doubled.
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Vertical Scaling Latency,
+            xlabel = Time in test (sec),
+            ylabel = Request duration (msec),
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3med/data/request.csv};
+          \addplot[thick, blue] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3large/data/request.csv};
+          \addplot[thick, green] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m3xlarge/data/request.csv};
+          \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/m32xlarge/data/request.csv};
+          \addlegendentry{M3 Med}
+          \addlegendentry{M3 Large}
+          \addlegendentry{M3 XLarge}
+          \addlegendentry{M3 2XLarge}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of latency during vertical scaling.}
+      \label{graph:vertical_latency}
+    \end{figure}
 
     \subsubsection{HTTP response statistics}
     \httpTable{Med}{1.1}{26}{140.4}{22276}
@@ -724,7 +761,7 @@ improving database performance for our most common operation.\\
     \begin{center}
       \begin{tikzpicture}
         \begin{axis}[title=Horizontal Scaling,
-            xlabel = Time (sec),
+            xlabel = Time in test (sec),
             ylabel = Users/sec,
             legend pos = outer north east,
           ]
@@ -762,6 +799,45 @@ improving database performance for our most common operation.\\
     As expected, when double the amount of servers were thrown at the problem,
     the number of users processed per second doubled.  Unlike vertical scaling,
     horizontal scaling is essentially limitless, and is usually cheaper.
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Horizontal Scaling Latency,
+            xlabel = Time in test (sec),
+            ylabel = Request duration (msec),
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3med/data/request.csv};
+          \addplot[thick, blue] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3large/data/request.csv};
+          \addplot[thick, green] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m3xlarge/data/request.csv};
+          \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/multi_m32xlarge/data/request.csv};
+          \addlegendentry{M3 Med}
+          \addlegendentry{M3 Large}
+          \addlegendentry{M3 XLarge}
+          \addlegendentry{M3 2XLarge}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of latency during horizontal scaling.}
+      \label{graph:horizontal_latency}
+    \end{figure}
 
     \subsubsection{HTTP response statistics}
     \httpTable{Med}{7.8}{3604}{1289.2}{196116}
