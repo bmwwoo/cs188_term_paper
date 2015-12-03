@@ -959,7 +959,7 @@ for a database with over 100,000 rows.\\
   of, we have a tool set of techniques we can use to more selectively scale out
   an application. Techniques such as query optimization, database sharding,
   in memory caching, and read or write slaves.\\
-  
+
   Some of the things we figured out about Market Chirp specifically:
   \begin{itemize}
     \item Market Chirp scaled linearly with both more application servers and
@@ -971,7 +971,7 @@ for a database with over 100,000 rows.\\
     \item Memcached lead to improvements in response time because it reduced
       database hits which were much slower compared to fetching from memory.
     \item Market Chirp is bottle necked more by CPU resources than database
-  	  queries once caching is implemented.
+      queries once caching was implemented.
     \item Reducing third-party API calls required for page loading improved
       performance by reducing the number of times our servers had to hit a
       remote resource.
