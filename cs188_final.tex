@@ -880,19 +880,6 @@ for a database with over 100,000 rows.\\
     \httpTable{XLarge}{35}{7001}{1372.7}{80826}
     \httpTable{2XLarge}{61.2}{10429}{1319.1}{60134}
 
-    \subsubsection{Future improvements}
-    We expect our database to be mostly read, with much fewer writes as users
-    are likely to spend more of their time accessing stock data than they are
-    favoriting or unfavoriting stocks.  Therefore, if we wanted to increase the
-    performance of our data persistence layer, we would add read-only slaves
-    with a write-master.  However, as seen in Section \ref{subsec:mem}, moving
-    to Memcached eliminated the need for our MySQL database to cache the stock
-    analysis and price data, reducing database hits. After dealing with scaling
-    our application to handle a large number of concurrent users, we could work
-    toward achieving high-availability. This could involve using Amazon's RDS
-    and Route 53 systems to have databases which cover different availability
-    zones and regional domains.
-
   \subsection{Memcached} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory
   object caching system. We used Memcached in our application through the
@@ -973,6 +960,20 @@ for a database with over 100,000 rows.\\
       \caption{Graph of latency using Memcached.}
       \label{graph:memcached_latency}
     \end{figure}
+    
+    \subsection{Future improvements}
+    We expect our database to be mostly read, with much fewer writes as users
+    are likely to spend more of their time accessing stock data than they are
+    favoriting or unfavoriting stocks.  Therefore, if we wanted to increase the
+    performance of our data persistence layer, we would add read-only slaves
+    with a write-master.  However, as seen in Section \ref{subsec:mem}, moving
+    to Memcached eliminated the need for our MySQL database to cache the stock
+    analysis and price data, reducing database hits. After dealing with scaling
+    our application to handle a large number of concurrent users, we could work
+    toward achieving high-availability. This could involve using Amazon's RDS
+    and Route 53 systems to have databases which cover different availability
+    zones and regional domains.
+    
 \end{mainSection}
 
 %------------------------------------------------------------------------------
