@@ -314,7 +314,8 @@ The gems we used include:
 \end{mainSection}
 \pagebreak
 
-\begin{mainSection}{Application Architecture}
+\begin{mainSection}{Application}
+  \subsection{Application Architecture}
   Ruby on Rails' use of a MVC (Model View Controller) system allowed us to
   quickly prototype features during development, and later provided insulation
   between different aspects of our website. The user facing View provides the
@@ -324,32 +325,28 @@ The gems we used include:
   which takes instructions from the Controller and updates the user's View. The
   Model also interacts with our application's database, in our case by keeping
   track of favorite stocks and cached data.
-\\
-\begin{figure}[H]
-\begin{center}
-    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
-                        semithick]
-      \tikzstyle{every state}=[rectangle,fill=gray,draw=none,text=white]
+  \\
+  \begin{figure}[H]
+  \begin{center}
+      \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
+                          semithick]
+        \tikzstyle{every state}=[rectangle,fill=gray,draw=none,text=white]
 
-      \node[state] (A)                    {$View$};
-      \node[state]         (B) [above right of=A] {$Model$};
-      \node[state]         (D) [below right of=A] {$User$};
-      \node[state]         (C) [below right of=B] {$Controller$};
+        \node[state] (A)                    {$View$};
+        \node[state] (B) [above right of=A] {$Model$};
+        \node[state] (D) [below right of=A] {$User$};
+        \node[state] (C) [below right of=B] {$Controller$};
 
-      \path (B) edge              node [left] {Updates} (A)
-            (C) edge              node [right] {Manipulates} (B)
-            (D) edge              node [right] {Uses} (C)
-            (A) edge              node [left] {Sees} (D);
-    \end{tikzpicture}
-  \end{center}
-  \caption{Graphical interface of a Model View Controller Architecture}
-  \label{dig:MVC}
-\end{figure}
+        \path (B) edge              node [left] {Updates} (A)
+              (C) edge              node [right] {Manipulates} (B)
+              (D) edge              node [right] {Uses} (C)
+              (A) edge              node [left] {Sees} (D);
+      \end{tikzpicture}
+    \end{center}
+    \caption{Graphical interface of a Model View Controller Architecture}
+    \label{dig:MVC}
+  \end{figure}
 
-\end{mainSection}
-\pagebreak
-
-\begin{mainSection}{Architecture}
   \subsection{Database layout}
   \begin{figure}[H]
     \begin{tikzpicture}
