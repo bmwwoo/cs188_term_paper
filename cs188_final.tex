@@ -34,6 +34,7 @@
 \usepackage{tikz}
 \usepackage{tikz-uml}
 \usetikzlibrary{backgrounds,arrows,automata}
+\usepackage{colortbl}
 \pgfplotsset{compat=1.5}
 \usepackage[latin1]{inputenc}
 
@@ -398,6 +399,24 @@ The gems we used include:
     \label{fig:database_layout}
   \end{figure}
 
+  \begin{figure}[H]
+    \begin{tabular}{|p{4cm}|p{11.51cm}|}
+      \hline
+      \textbf{Model} & \textbf{Purpose}\\
+      \hline
+      \rowcolor[gray]{.9}
+      Company & This table contains the non-financial information about the company.  It is what matches a stock symbol to a complete company name, and other information about the company.\\
+      Favorite Company & This table is what links a User to the companies that they favorited.\\
+      \rowcolor[gray]{.9}
+      Finance Cache & This table stores the data received from Yahoo! Finance so we can reduce third-party API hits.\\
+      Sentiment Cache & This table stores the sentiment data calculated from the data received from Twitter so we can both reduce third-party API hits and greatly improve performance.\\
+      \rowcolor[gray]{.9}
+      User & This table stores User account data.\\
+      \hline
+    \end{tabular}
+    \caption{Table of Market Chirp's models and their purposes.}
+    \label{fig:database_description}
+  \end{figure}
 \end{mainSection}
 
 \begin{mainSection}{Testing}
