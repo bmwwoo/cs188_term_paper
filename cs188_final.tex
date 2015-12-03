@@ -875,6 +875,60 @@ improving database performance for our most common operation.\\
 
   We implemented Memcached on the Yahoo! Finance data, the overall sentiment,
   and the tweet which most closely reflected the sentiment of a stock.
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Memcached Performance,
+            xlabel = Time in test (sec),
+            ylabel = Users/sec,
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/mem_m3large/data/200.csv};
+          \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/nomem_m3large/data/200.csv};
+          \addlegendentry{Memcached}
+          \addlegendentry{No Memcached}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of performance with Memcached.}
+      \label{graph:memached}
+    \end{figure}
+
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}
+        \begin{axis}[title=Memcached Latency,
+            xlabel = Time in test (sec),
+            ylabel = Request duration (msec),
+            legend pos = outer north east,
+          ]
+          \addplot[thick, orange] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/mem_m3large/data/request.csv};
+          \addplot[thick, magenta] table [
+              col sep=comma,
+              x = X,
+              y = Y,
+            ] {resources/nomem_m3large/data/request.csv};
+          \addlegendentry{Memcached}
+          \addlegendentry{No Memcached}
+          \end{axis}
+        \end{tikzpicture}
+      \end{center}
+      \caption{Graph of latency using Memached.}
+      \label{graph:memcached_latency}
+    \end{figure}
 \end{mainSection}
 
 %------------------------------------------------------------------------------

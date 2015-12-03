@@ -5,3 +5,6 @@ ABCs.pdf: cs188_final.tex
 
 check:
 	aspell -t -c cs188_final.tex
+
+csv:
+	./gencsv.sh
