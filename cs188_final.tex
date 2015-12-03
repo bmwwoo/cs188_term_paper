@@ -725,6 +725,12 @@ for a database with over 100,000 rows.\\
     \end{figure}
 
     \subsubsection{HTTP response statistics}
+    These response code return rates show the improvement of the server when
+    scaled vertically. While the rate of 503 errors improves only marginally,
+    the rate of 200 codes increases in a near linear fashion. If we were to
+    scale up our hardware past the capabilities of an m3.2XLarge instance
+    however, we would probably start to see that the 200 rates only increase by
+    a small amount.
     \httpTable{Med}{1.1}{26}{140.4}{22276}
     \httpTable{Large}{9.6}{3007}{134.9}{31375}
     \httpTable{XLarge}{18.4}{5299}{127.1}{24098}
@@ -811,6 +817,12 @@ for a database with over 100,000 rows.\\
     As expected, when double the amount of servers were thrown at the problem,
     the number of users processed per second doubled.  Unlike vertical scaling,
     horizontal scaling is essentially limitless, and is usually cheaper.
+    Below, we can also see that the request duration for each user also
+    decreased in a proportionally similar manner. Longer response times
+    correspond to delays that are visibly noticeable to a user, so we want to
+    strike a balance between this latency and cost of additional servers. As we
+    get closer to zero latency, we see the effects of diminishing returns on
+    additional servers.\\
 
   \begin{figure}[H]
     \begin{center}
@@ -851,7 +863,13 @@ for a database with over 100,000 rows.\\
       \label{graph:horizontal_latency}
     \end{figure}
 
+	\pagebreak
     \subsubsection{HTTP response statistics}
+    Here we lay out the results of the response code rates for both 200 and 503
+    codes. We tested the improvements we got from vertically scaling the M3
+    family of machines, as well as making use of horizontal scaling with
+    Amazon's elastic load balancer. Using two machines of the same size, we
+    received the output shown in the tables below.
     \httpTable{Med}{7.8}{3604}{1289.2}{196116}
     \httpTable{Large}{18.7}{3913}{1386.5}{85398}
     \httpTable{XLarge}{35}{7001}{1372.7}{80826}
