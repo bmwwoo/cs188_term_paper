@@ -207,15 +207,15 @@ favorite companies and monitor their stock market performance.
 The goal of Market Chirp is to quickly analyze the public's opinion of
 high-quality stocks through short notes on Twitter. Since the feed of Tweets is
 queried in real time when a user searches for a certain stock, the sentiment
-analysis of a stock is the public's current opinion of whether a stock is
-bullish or bearish. For example, if a stock's market price is on a downhill
+analysis of a stock represents the public's current opinion of whether a stock
+is bullish or bearish. For example, if a stock's market price is on a downhill
 trend but its Twitter sentiment is on an uptrend, one may take that as an
 indication to buy the stock. This is because the temperature of a company in
 the eye of the public is often a good indicator of their stock's future
 performance on the market. Market Chirp's ultimate goal is not to predict the
-stock market as the sentiment is based on limited data set of people tweeting
-about a stock, however it can give insight into the future of the stock based
-on public opinion.
+prices of the whole of the stock market, as the sentiment is based on a limited
+data set of people tweeting about a stock, but to give a recommendation of
+whether to buy the stock or not stock based on the public's opinion.
 \\
 \subsection{How we do it}
 Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The
@@ -688,7 +688,7 @@ improving database performance for our most common operation.\\
   (LB), two application servers (S0 and S1) and a MySQL server (DB).  This is a
   fairly standard horizontal scaling technique that makes it easy to increase
   the number of application servers dynamically (a side benefit of this is that
-  each application server can be small, cheap, and unreliable as a new server
+  each application server can be small, cheap, and reliable as a new server
   can be spun up to take its place if it fails).
 
   \subsubsection{Network diagram}
