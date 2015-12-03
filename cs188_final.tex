@@ -628,7 +628,7 @@ for a database with over 100,000 rows.\\
   client side graphing library read in that JSON.  It made more sense to store
   the JSON received from Yahoo! Finance in the same format that the graph
   required, than it did to parse the JSON, store each value individually, and
-  read those values out as JSON later.
+  read those values out as JSON later. 
 
   \subsection{Vertical scaling}
   Vertical scaling, simply throwing more processing power at the problem, is
@@ -679,9 +679,17 @@ for a database with over 100,000 rows.\\
       \label{graph:vertical}
     \end{figure}
 
-    Figure \ref{graph:vertical} shows the result of our vertical scaling. As
-    expected, when double the processing power was thrown at the problem, the
-    number of users processed per second roughly doubled.
+    Figure \ref{graph:vertical} shows the result of our vertical scaling tests.
+    As expected, when double the processing power was thrown at the problem,
+    the number of users processed per second roughly doubled. However, as we
+    moved into the 2XLarge sized instance, we started to see some strange
+    behavior. The close to linear improvement we had seen by just scaling the
+    number of CPUs and memory of a server was no longer apparent. The drop in
+    users per second seen in the 2XLarge instance can be explained by the
+    request duration graph in figure \ref{graph:vertical_latency}. At about 50
+    seconds into the test, we discovered that a race condition existed when two
+    users attempted to query the same stock in the short period between
+    updating and accessing the cache.
 
   \begin{figure}[H]
     \begin{center}
@@ -873,6 +881,17 @@ for a database with over 100,000 rows.\\
     \httpTable{XLarge}{35}{7001}{1372.7}{80826}
     \httpTable{2XLarge}{61.2}{10429}{1319.1}{60134}
 
+	\subsubsection{Combined Scaling}
+	Using both vertical scaling and horizontal scaling, we set up a load
+	balanced system consisting of two m3.2xlarge instances. The response in terms
+	of users per second can be seen in Figure \ref{graph:horizontal}. In terms of
+	simultaneous users that our app is able to handle, we also saw significant
+	improvement. With our initial tests on the m3.med instance, we peaked at about
+	800 concurrent users, however after scaling up to a 2XLarge instance and
+	adding load balancing between two of these servers, we were able to handle up
+	to 7400 users before the number of connected users began to diverge from the
+	number of users attempting to connect.
+
     \subsubsection{Future improvements}
     We expect our database to be mostly read, with much fewer writes as users
     are likely to spend more of their time accessing stock data than they are
@@ -885,7 +904,6 @@ for a database with over 100,000 rows.\\
     toward achieving high-availability. This could involve using Amazon's RDS
     and Route 53 systems to have databases which cover different availability
     zones and regional domains.
-    \pagebreak
 
   \subsection{Memcached} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory
