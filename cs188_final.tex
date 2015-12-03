@@ -189,9 +189,9 @@ the user with the information required to make sound investment decisions.
 \indent Market Chirp provides users with an interface to quickly get historical
 and current data for any given stock. Market Chirp's defining feature is
 providing sentiment analysis of the stock based on influential and recent
-tweets so users gain valuable insight on what others are saying about the
-company performance. We provide users a platform to make a portfolio of their
-favorite companies and monitor their stock market performance.
+tweets so users gain valuable insight in to what others are saying about the
+company's performance. We empower users to develop their best investment
+portfolio by giving them a head start on the market.
 \\
 \begin{figure}[h]
   \centering
@@ -203,7 +203,7 @@ favorite companies and monitor their stock market performance.
 
 \subsection{Our goal}
 The goal of Market Chirp is to quickly analyze the public's opinion of
-high-quality stocks through short notes on Twitter. Since the feed of Tweets is
+high-quality stocks through short notes on Twitter. Since the feed of tweets is
 queried in real time when a user searches for a certain stock, the sentiment
 analysis of a stock represents the public's current opinion of whether a stock
 is bullish or bearish. For example, if a stock's market price is on a downhill
@@ -264,8 +264,8 @@ driven development in which one creates test cases for a feature before
 actually implementing the feature. By following TDD, edge cases were covered as
 we programmed out the features since we thought about what they were
 beforehand. Since we created ample test cases, the majority of our code was
-covered and allowed us to be confident our website would not crash when scaled
-upward.
+covered and allowed us to be confident our website would not crash when
+deployed.
 \\
 
 Travis CI was set up as a continuous integration service for building and
@@ -278,64 +278,63 @@ its reliability and keeping it bug free.
 To further minimize the bugs in our code and to follow the D.R.Y. practices, we
 ran RuboCop and Pre-commit before our commits. RuboCop is a Ruby static code
 analyzer that enforces many of the guidelines outlined in the community created
-Ruby Style Guide. This linter analyzed all of the code in our repository and
-provided metrics that ensured our Ruby code was stylistically accurate. Before
-we committed our code, Git fired off a Pre-commit hook that ran RuboCop. If
-RuboCop returned any warnings on our code, our code could not be committed.
-Thus, our code was ensured to be up-to-date with the current stylistic
-guidelines.
+Ruby Style Guide, while also catching many common Ruby mistakes. This linter
+analyzed all of the code in our repository and provided metrics that ensured
+our Ruby code was stylistically accurate. Before we committed our code, Git
+fired off a Pre-commit hook that ran RuboCop. If RuboCop returned any warnings
+on our code, our code could not be committed.  Thus, our code was ensured to be
+up-to-date with the current stylistic guidelines.
 \\
 \subsection{Version control}
 Our version control management system was Git. By keeping the master branch as
 our production branch, our releases on AWS were always in sync with the latest
 release on our remote GitHub. We all worked on separate branches and used pull
-requests to merge our new code into the other branches eventually merging into
+requests to merge our new code into the other branches, eventually merging into
 master. By constantly rebasing our branches, our development history is clean
 and looks as though only one person had developed it. Separating the features
 and bug fixes into their own respective branch allowed each developer to focus
 on his own feature without conflicting with other developers. After merging in
-the features, the application's version control was clean.
+the features, the application's version control history was simple and clean.
 
 \subsection{Pair programming}
-We also performed pair programming in certain scenarios such as the development
+We also performed pair programming in certain scenarios, such as the development
 of our Memcached server side caching optimization. Pair programming allowed us
-to minimize the errors in our code since we had multiple eyes on the screen at
+to minimize the errors in our code since we had multiple eyes on the code at
 a time. One person could focus on hashing out the code while the other checked
 for syntactic or logical errors. In doing so, the time from the outlining of a
-feature to pushing production ready code was optimized and we were able to save
+feature to pushing production ready code was minimized and we were able to save
 a substantial amount of time.
 
 \subsection{Important gems}
 We utilized several important rails gems that helped make the development of
 our application much easier. The gems listed below added important
-functionality such as user management and wrappers for APIs. Using the gems is
-better practice because it saves development time as we do not have to
-implement and debug code in house. These functionality provided in external
-gems is more robust and has been tested.
+functionality such as user management and wrappers for APIs. By using the
+following gems, we were able to minimize the time spent developing and maximize
+the time spent scaling our system. The functionality provided in external
+gems is more robust and has been tested by others, improving the reliability of
+our services.
 
 The gems we used include:
   \begin{enumerate}
-    \item \textbf{devise}: gem is a MVC based authentication solution for
+    \item \textbf{devise}: a MVC based authentication solution for
       rails. It is flexible and can be easily customized based on individual
       requirements.
-    \item \textbf{sentimentalizer}: gem provides an implementation to run
-      sentiment analysis on a block of texts. We integrated this gem manually
-      instead of using a gem file. We made this design decision to improve the
-      quality of the sentiment analysis by passing custom training data
-      consisting of manually scraped and labeled stock market tweets. This
-      enabled the sentiment analyzer to better recognize stock market terms.
-    \item \textbf{twitter}: gem provides a clean interface to the Twitter API.
-    \item \textbf{yahoofinance}: gem provides a clean interface to the Yahoo
-      Finance API for stock and historical data
-    \item \textbf{d3-rails}: gem provides the D3 library to create plots and
-      graphs
+    \item \textbf{sentimentalizer}: a sentiment analyzer for blocks of text. We
+      integrated this gem manually instead of using a gem file. We made this
+      design decision to improve the quality of the sentiment analysis by
+      passing custom training data consisting of manually scraped and labeled
+      stock market tweets. This enabled the sentiment analyzer to better
+      recognize stock market terms and sentiments.
+    \item \textbf{twitter}: a clean interface to the Twitter API.
+    \item \textbf{yahoofinance}: a clean interface to the Yahoo! Finance API
+      for stock and historical data
+    \item \textbf{d3-rails}: the D3 library to create plots and graphs
   \end{enumerate}
 
 \end{mainSection}
-\pagebreak
 
 \begin{mainSection}{Application}
-  \subsection{Application architecture}
+  \subsection{Architecture}
   Ruby on Rails' use of a MVC (Model View Controller) system allowed us to
   quickly prototype features during development, and later provided insulation
   between different aspects of our website. The user facing View provides the
@@ -344,7 +343,7 @@ The gems we used include:
   searching for a stock, they are using a Controller. Lastly there is the Model
   which takes instructions from the Controller and updates the user's View. The
   Model also interacts with our application's database, in our case by keeping
-  track of favorite stocks and cached data.
+  track of user accounts, favorited stocks, and cached data.
   \\
   \begin{figure}[H]
   \begin{center}
@@ -363,7 +362,7 @@ The gems we used include:
               (A) edge              node [left] {Sees} (D);
       \end{tikzpicture}
     \end{center}
-    \caption{Graphical interface of a Model View Controller Architecture}
+    \caption{Graphical representation of a Model View Controller architecture}
     \label{dig:MVC}
   \end{figure}
 
@@ -425,7 +424,7 @@ The gems we used include:
       Company & This table contains the non-financial information about the
       company.  It is what matches a stock symbol to a complete company name,
       and other information about the company.\\
-      Favorite Company & This table is what links a User to the companies that
+      Favorite Company & This table is what links a user to the companies that
       they favorited.\\
       \rowcolor[gray]{.9}
       Finance Cache & This table stores the data received from Yahoo! Finance
@@ -434,7 +433,7 @@ The gems we used include:
       the data received from Twitter so we can both reduce third-party API hits
       and greatly improve performance.\\
       \rowcolor[gray]{.9}
-      User & This table stores User account data.\\
+      User & This table stores user account data.\\
       \hline
     \end{tabular}
     \caption{Table of Market Chirp's models and their purposes.}
