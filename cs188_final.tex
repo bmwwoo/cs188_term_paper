@@ -164,7 +164,7 @@ the user with the information required to make sound investment decisions.
 \\
 
 \subsection{What we do}
-\indent Market Chrip provides users with an interface to quickly get historical
+\indent Market Chirp provides users with an interface to quickly get historical
 and current data for any given stock. Market Chirp's defining feature is
 providing sentiment analysis of the stock based on influential and recent
 tweets so users gain valuable insight on what others are saying about the
@@ -195,7 +195,7 @@ on public opinion.
 \\
 \subsection{How we do it}
 Market Chirp is implemented in Ruby on Rails (Ruby 2.2.1 and Rails 4.2.4). The
-backend data store is a relational database management system, in our case
+back end data store is a relational database management system, in our case
 MySQL. Since the purpose of CS 188/219: Scalable Internet Services is to build
 and deploy a scalable web service, this report will therefore discuss the
 deployment, performance and scalability of Market Chirp.
@@ -224,7 +224,7 @@ on track and figure out how all the features we were developing would interact.
 
 \subsection{Scheduling}
 Pivotal Tracker guided us in following the Agile development framework. With
-Pivotal Tracker integrated with Github to keep track of certain features or
+Pivotal Tracker integrated with GitHub to keep track of certain features or
 issues, our commits and releases could be synced up to reflect the current
 status of the application. We were able to assign tickets to certain people in
 order to split the work up in an efficient manner. By modularizing the tasks,
@@ -249,24 +249,24 @@ upward.
 Travis CI was set up as a continuous integration service for building and
 testing the project. We created numerous test cases that would be run each
 commit to verify the version control's reliability. Connecting Travis CI to
-Github allowed us to keep committing new code, while at the same time testing
+GitHub allowed us to keep committing new code, while at the same time testing
 its reliability and keeping it bug free.
 \\
 
 To further minimize the bugs in our code and to follow the D.R.Y. practices, we
-ran Rubocop and Pre-commit before our commits. Rubocop is a Ruby static code
+ran RuboCop and Pre-commit before our commits. RuboCop is a Ruby static code
 analyzer that enforces many of the guidelines outlined in the community created
 Ruby Style Guide. This linter analyzed all of the code in our repository and
 provided metrics that ensured our Ruby code was stylistically accurate. Before
-we committed our code, Git fired off a pre-commit hook that ran Rubocop. If
-Rubocop returned any warnings on our code, our code could not be committed.
+we committed our code, Git fired off a Pre-commit hook that ran RuboCop. If
+RuboCop returned any warnings on our code, our code could not be committed.
 Thus, our code was ensured to be up-to-date with the current stylistic
 guidelines.
 \\
 \subsection{Version control}
 Our version control management system was Git. By keeping the master branch as
 our production branch, our releases on AWS were always in sync with the latest
-release on our remote Github. We all worked on separate branches and used pull
+release on our remote GitHub. We all worked on separate branches and used pull
 requests to merge our new code into the other branches eventually merging into
 master. By constantly rebasing our branches, our development history is clean
 and looks as though only one person had developed it. Separating the features
@@ -297,14 +297,14 @@ The gems we used include:
       rails. It is flexible and can be easily customized based on individual
       requirements.
     \item \textbf{sentimentalizer}: gem provides an implementation to run
-      sentiment analysis on a block of texts. We integrated this gem manuall
+      sentiment analysis on a block of texts. We integrated this gem manually
       instead of using a gem file. We made this design decision to improve the
       quality of the sentiment analysis by passing custom training data
       consisting of manually scraped and labeled stock market tweets. This
       enabled the sentiment analyzer to better recognize stock market terms.
-    \item \textbf{twitter}: gem provides a clean iterface to the Twitter API.
+    \item \textbf{twitter}: gem provides a clean interface to the Twitter API.
     \item \textbf{yahoofinance}: gem provides a clean interface to the Yahoo
-      Finance api for stock and historical data
+      Finance API for stock and historical data
     \item \textbf{d3-rails}: gem provides the D3 library to create plots and
       graphs
   \end{enumerate}
@@ -377,7 +377,7 @@ The gems we used include:
   We used the following software packages for the deployment of the production
   version of our application:
   \begin{itemize}
-    \item Nginx
+    \item NGINX
     \item Phusion Passenger
     \item MySQL
   \end{itemize}
@@ -418,8 +418,8 @@ When separate database servers were used (for example, in horizontal scaling),
 the database server was the same size as the application server
 (\texttt{db.m3med} was used for \texttt{m3.med}).\\
 
-After analyzing our common queries, we added indicies to our database to
-improve read performance.  These indicies reduced query time for reads,
+After analyzing our common queries, we added indices to our database to
+improve read performance.  These indices reduced query time for reads,
 improving database performance for our most common operation.\\
 
   \subsection{User simulation}
@@ -501,12 +501,12 @@ improving database performance for our most common operation.\\
   \begin{enumerate}
     \item Visits our homepage
     \item Visits our sentiment analysis page
-    \item Searchs for FB
+    \item Searches for FB
     \item Searches for AAPL
     \item Searches for GOOGL
     \item Searches for TSLA
     \item Visits our stock data page
-    \item Searchs for FB
+    \item Searches for FB
     \item Searches for AAPL
     \item Searches for GOOGL
     \item Searches for TSLA
@@ -522,7 +522,7 @@ improving database performance for our most common operation.\\
     \item Visits their dashboard
     \item Visits the dashboard for GOOGL
     \item Favorites GOOGL
-    \item Visits the dashboard for TLSA
+    \item Visits the dashboard for TSLA
     \item Visits the dashboard for FB
     \item Visits the dashboard for AAPL
     \item Removes AAPL from their favorite list
@@ -533,7 +533,7 @@ improving database performance for our most common operation.\\
   The first tests of Market Chirp showed massive performance issues.  Twitter
   sentiment data was calculated for all 100 tweets (pulled from Twitter
   separately for each request), leading to $20+$ second delays in getting
-  results when searching for a stock symbol. During this period, the webpage
+  results when searching for a stock symbol. During this period, the web page
   was unresponsive to the user and appeared to be frozen. From looking at the
   logs and \texttt{top}, it was clear that the process was CPU bound.  No
   formal Tsung testing happened at this performance level because individual
@@ -716,7 +716,7 @@ improving database performance for our most common operation.\\
 % CONCLUSION
 \begin{mainSection}{Conclusion}
   % TODO Add more items
-  From the development and testing of MarketChirp, we learned a few things
+  From the development and testing of Market Chirp, we learned a few things
   about both deploying an application and scaling it to handle the arrival of
   hundreds of concurrent visitors:
   \begin{itemize}
