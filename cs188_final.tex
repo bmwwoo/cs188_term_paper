@@ -960,7 +960,7 @@ for a database with over 100,000 rows.\\
       \caption{Graph of latency using Memcached.}
       \label{graph:memcached_latency}
     \end{figure}
-    
+
     \subsection{Future improvements}
     We expect our database to be mostly read, with much fewer writes as users
     are likely to spend more of their time accessing stock data than they are
@@ -968,18 +968,18 @@ for a database with over 100,000 rows.\\
     performance of our data persistence layer, we would add read-only slaves
     with a write-master.  However, as seen in Section \ref{subsec:mem}, moving
     to Memcached eliminated the need for our MySQL database to cache the stock
-    analysis and price data, reducing database hits. After dealing with scaling
-    our application to handle a large number of concurrent users, we could work
-    toward achieving high-availability. This could involve using Amazon's RDS
-    and Route 53 systems to have databases which cover different availability
-    zones and regional domains.
-    
+    analysis and price data, reducing database hits.\\
+
+    After dealing with scaling our application to handle a large number of
+    concurrent users, we could work toward achieving high-availability. This
+    could involve using Amazon's RDS and Route 53 systems to have databases
+    which cover different availability zones and regional domains.
+
 \end{mainSection}
 
 %------------------------------------------------------------------------------
 % CONCLUSION
 \begin{mainSection}{Conclusion}
-  % TODO Add more items
   From the development and testing of Market Chirp, we learned about both
   deploying an application and scaling it to handle the arrival of hundreds of
   concurrent visitors. We learned that increasing the scalability of an app is
