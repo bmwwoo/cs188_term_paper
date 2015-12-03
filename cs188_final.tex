@@ -739,7 +739,7 @@ for a database with over 100,000 rows.\\
   \subsection{Horizontal scaling}
   For horizontal scaling, we moved from a single server that handled both the
   application server and the database to a network of servers (Figure
-  \ref{graph:horizontal}).  This network contained an elastic load balancer
+  \ref{dig:horizontal}).  This network contained an elastic load balancer
   (LB), two application servers (S0 and S1) and a MySQL server (DB).  This is a
   fairly standard horizontal scaling technique that makes it easy to increase
   the number of application servers dynamically (a side benefit of this is that
@@ -764,7 +764,7 @@ for a database with over 100,000 rows.\\
         \end{scope}
       \end{tikzpicture}
     \end{center}
-    \caption{Network of Load Balancer, Servers, and Database Server}
+    \caption{Network of load balancer, servers, and database server.}
     \label{dig:horizontal}
   \end{figure}
   Figure \ref{dig:horizontal} shows the configuration of our load balancer,
