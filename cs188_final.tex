@@ -860,7 +860,12 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
     performance of our data persistence layer, we would add read-only slaves
     with a write-master.  However, as seen in Section \ref{subsec:mem}, moving
     to Memcached eliminated the need for our MySQL database to cache the stock
-    analysis and price data, reducing database hits.
+    analysis and price data, reducing database hits. After dealing with scaling
+    our application to handle a large number of concurrent users, we could work
+    toward achieving high-availability. This could involve using Amazon's RDS
+    and Route 53 systems to have databases which cover different availability
+    zones and regional domains.
+    \pagebreak
 
   \subsection{Memcached} \label{subsec:mem}
   Another method we implemented to speed up our application was to use a memory
@@ -941,9 +946,17 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
 % CONCLUSION
 \begin{mainSection}{Conclusion}
   % TODO Add more items
-  From the development and testing of Market Chirp, we learned a few things
-  about both deploying an application and scaling it to handle the arrival of
-  hundreds of concurrent visitors:
+  From the development and testing of Market Chirp, we learned about both
+  deploying an application and scaling it to handle the arrival of hundreds of
+  concurrent visitors. We learned that increasing the scalability of an app is
+  very application specific, however the same basic approach can be taken to
+  get started in the right direction. These steps include ideas such as
+  caching, vertical scaling, and horizontal scaling. Once these are taken care
+  of, we have a tool set of techniques we can use to more selectively scale out
+  an application. Techniques such as query optimization, database sharding,
+  in memory caching, and read or write slaves.\\
+  
+  Some of the things we figured out about Market Chirp specifically:
   \begin{itemize}
     \item Market Chirp scaled linearly with both more application servers and
       more processing power.  Doubling either lead to double the users served
@@ -953,6 +966,8 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
       inferior to using Memcached.
     \item Memcached lead to improvements in response time because it reduced
       database hits which were much slower compared to fetching from memory.
+    \item Market Chirp is bottle necked more by CPU resources than database
+  	  queries once caching is implemented.
     \item Reducing third-party API calls required for page loading improved
       performance by reducing the number of times our servers had to hit a
       remote resource.
