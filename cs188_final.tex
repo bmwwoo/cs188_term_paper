@@ -88,6 +88,28 @@
 \exitSectionHeader{\mainSectionName} % Header and footer after the environment
 }
 
+\newcounter{httpTableCounter}
+\newcommand{\httpTable}[5]{
+  \stepcounter{httpTableCounter}
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tabular}{|l|r|r|}
+        \hline
+        \multicolumn{3}{ |c| }{HTTP Response Codes for \texttt{m3.#1}}\\
+        \hline
+        Code & Highest Rate & Total \\
+        \hline
+        200  & #2/sec  & #3 \\
+        503  & #4/sec  & #5 \\
+        \hline
+      \end{tabular}
+      \caption{Please note this table only includes \texttt{200} and
+      \texttt{503} response codes.}
+      \label{fig:http#1}
+    \end{center}
+  \end{figure}
+}
+
 %------------------------------------------------------------------------------
 %	NAME AND CLASS SECTION
 %------------------------------------------------------------------------------
@@ -609,6 +631,7 @@ improving database performance for our most common operation.\\
   increasing size. We chose the M3 family of instances to test on as they gave
   a nice balance of computational capabilities, memory, and network resources.
 
+  \subsubsection{Performance graph}
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
@@ -652,6 +675,12 @@ improving database performance for our most common operation.\\
     expected, when double the processing power was thrown at the problem, the
     number of users processed per second roughly doubled.
 
+    \subsubsection{HTTP response statistics}
+    \httpTable{Med}{1.1}{26}{140.4}{22276}
+    \httpTable{Large}{9.6}{3007}{134.9}{31375}
+    \httpTable{XLarge}{18.4}{5299}{127.1}{24098}
+    \httpTable{2XLarge}{30.8}{7210}{123.4}{26659}
+
   \subsection{Horizontal scaling}
   For horizontal scaling, we moved from a single server that handled both the
   application server and the database to a network of servers (Figure
@@ -661,6 +690,36 @@ improving database performance for our most common operation.\\
   the number of application servers dynamically (a side benefit of this is that
   each application server can be small, cheap, and unreliable as a new server
   can be spun up to take its place if it fails).
+
+  \subsubsection{Network diagram}
+  \begin{figure}[H]
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={rectangle, fill=green,minimum
+        width=15mm, minimum height=15mm,draw}]
+        \node[fill=orange] (lb) at (0,0) {LB};
+        \node (s0) at (-4,-2) {S0};
+        \node (s1) at (4,-2) {S1};
+        \node[fill=cyan] (db) at (0,-4) {DB};
+
+        \begin{scope}[on background layer]
+          \draw[->] (lb) edge (s0);
+          \draw[->] (lb) edge (s1);
+          \draw[->] (s0) edge (db);
+          \draw[->] (s1) edge (db);
+        \end{scope}
+      \end{tikzpicture}
+    \end{center}
+    \caption{Network of Load Balancer, Servers, and Database Server}
+    \label{dig:horizontal}
+  \end{figure}
+  Figure \ref{dig:horizontal} shows the configuration of our load balancer,
+  servers and database.  This method of scaling lets us easily add more
+  application servers to increase our available processing power, while not
+  having to deal with distributed databases or more complex data persistence
+  layers (although we are able to improve the data persistence layer if we
+  want).\\
+
+  \subsubsection{Performance graph}
   \begin{figure}[H]
     \begin{center}
       \begin{tikzpicture}
@@ -704,33 +763,13 @@ improving database performance for our most common operation.\\
     the number of users processed per second doubled.  Unlike vertical scaling,
     horizontal scaling is essentially limitless, and is usually cheaper.
 
-    \begin{figure}[H]
-      \begin{center}
-        \begin{tikzpicture}[every node/.style={rectangle, fill=green,minimum
-          width=15mm, minimum height=15mm,draw}]
-          \node[fill=orange] (lb) at (0,0) {LB};
-          \node (s0) at (-4,-2) {S0};
-          \node (s1) at (4,-2) {S1};
-          \node[fill=cyan] (db) at (0,-4) {DB};
+    \subsubsection{HTTP response statistics}
+    \httpTable{Med}{7.8}{3604}{1289.2}{196116}
+    \httpTable{Large}{18.7}{3913}{1386.5}{85398}
+    \httpTable{XLarge}{35}{7001}{1372.7}{80826}
+    \httpTable{2XLarge}{61.2}{10429}{1319.1}{60134}
 
-          \begin{scope}[on background layer]
-            \draw[->] (lb) edge (s0);
-            \draw[->] (lb) edge (s1);
-            \draw[->] (s0) edge (db);
-            \draw[->] (s1) edge (db);
-          \end{scope}
-        \end{tikzpicture}
-      \end{center}
-      \caption{Network of Load Balancer, Servers, and Database Server}
-      \label{dig:horizontal}
-    \end{figure}
-    Figure \ref{dig:horizontal} shows the configuration of our load balancer,
-    servers and database.  This method of scaling lets us easily add more
-    application servers to increase our available processing power, while not
-    having to deal with distributed databases or more complex data persistence
-    layers (although we are able to improve the data persistence layer if we
-    want).\\
-
+    \subsubsection{Future improvements}
     We expect our database to be mostly read, with much fewer writes as users
     are likely to spend more of their time accessing stock data than they are
     favoriting or unfavoriting stocks.  Therefore, if we wanted to increase the
