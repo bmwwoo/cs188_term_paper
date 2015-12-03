@@ -491,7 +491,12 @@ After analyzing our common queries, we added indices to our database to
 improve read performance.  These indices reduced query time for reads,
 improving database performance for our most common operation.\\
 
-For all of our testing, we used a database that was seeded with 2,500 user accounts.  Each user had three favorites, with a fourth added during the test. This let our database have over 10,000 rows (especially after all of the company data was seeded).  For our Memcached test, discussed in depth in Section \ref{subsec:mem}, we used a database seeded with 25,000 user accounts for a database with over 100,000 rows.\\
+For almost all of our testing, we used a database that was seeded with 2,500
+user accounts.  Each user had three favorites, with a fourth added during the
+test. This let our database have over 10,000 rows (especially after all of the
+company data was seeded).  For our Memcached test, discussed in depth in
+Section \ref{subsec:mem}, we used a database seeded with 25,000 user accounts
+for a database with over 100,000 rows.\\
 
   \subsection{User simulation}
   \begin{figure}[H]
@@ -614,10 +619,10 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
   A MySQL driven "cache" was created to store Twitter analysis for a day, for
   each stock that was searched.  While initial stock searches caused
   unreasonable delays of $20+$ seconds, subsequent delays were much, much
-  smaller, happening in less than $5$ seconds.  The cache stores the overall
-  calculated sentiment and the single tweet out of the $100$ sampled tweets
-  that has the closest sentiment value as an average tweet for the given
-  sample.\\
+  smaller, with requests finishing in less than $5$ seconds.  The cache stores
+  the overall calculated sentiment and the single tweet out of the $100$
+  sampled tweets that has the closest sentiment value as an average tweet for
+  the given sample.\\
 
   A similar MySQL driven caching system was added to cache the 10 years of
   Yahoo! Finance stock data downloaded and current stock data for each symbol
@@ -629,7 +634,7 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
 
   \subsection{Vertical scaling}
   Vertical scaling, simply throwing more processing power at the problem, is
-  simple but expensive.  We expected to get marginal performance gains by
+  simple but expensive.  We expected to get performance gains by
   scaling vertically because our main bottleneck was the CPU bound Twitter
   sentiment analysis. To test the response of our application to an increasing
   load when equipped with more raw power, we set up a number of instances of
@@ -973,7 +978,7 @@ For all of our testing, we used a database that was seeded with 2,500 user accou
     \item Horizontal scaling is easier and cheaper to accomplish than vertical
       scaling in the long run.
     \item Horizontal scaling is also more fault tolerant compared to vertical
-      scaling. In the even that a server fails, it can be easily replaced with
+      scaling. In the event that a server fails, it can be easily replaced with
       a new instance.
   \end{itemize}
 
