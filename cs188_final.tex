@@ -33,8 +33,9 @@
 \usepackage{float}
 \usepackage{tikz}
 \usepackage{tikz-uml}
-\usetikzlibrary{backgrounds}
+\usetikzlibrary{backgrounds,arrows,automata}
 \pgfplotsset{compat=1.5}
+\usepackage[latin1]{inputenc}
 
 % Margins
 \topmargin=-0.45in
@@ -289,9 +290,9 @@ our application much easier. The gems listed below added important
 functionality such as user management and wrappers for APIs. Using the gems is
 better practice because it saves development time as we do not have to
 implement and debug code in house. These functionality provided in external
-gems is more robust and has been tested. 
+gems is more robust and has been tested.
 
-The gems we used include: 
+The gems we used include:
   \begin{enumerate}
     \item \textbf{devise}: gem is a MVC based authentication solution for
       rails. It is flexible and can be easily customized based on individual
@@ -310,6 +311,7 @@ The gems we used include:
   \end{enumerate}
 
 \end{mainSection}
+\pagebreak
 
 \begin{mainSection}{Application Architecture}
   Ruby on Rails' use of a MVC (Model View Controller) system allowed us to
@@ -322,6 +324,31 @@ The gems we used include:
   Model also interacts with our application's database, in our case by keeping
   track of favorite stocks and cached data.
 \\
+\begin{figure}[H]
+\begin{center}
+    \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=5cm,
+                        semithick]
+      \tikzstyle{every state}=[rectangle,fill=gray,draw=none,text=white]
+
+      \node[state] (A)                    {$View$};
+      \node[state]         (B) [above right of=A] {$Model$};
+      \node[state]         (D) [below right of=A] {$User$};
+      \node[state]         (C) [below right of=B] {$Controller$};
+
+      \path (B) edge              node [left] {Updates} (A)
+            (C) edge              node [right] {Manipulates} (B)
+            (D) edge              node [right] {Uses} (C)
+            (A) edge              node [left] {Sees} (D);
+    \end{tikzpicture}
+  \end{center}
+  \caption{Graphical interface of a Model View Controller Architecture}
+  \label{dig:MVC}
+\end{figure}
+
+\end{mainSection}
+\pagebreak
+
+\begin{mainSection}{Architecture}
   \subsection{Database layout}
   \begin{figure}[H]
     \begin{tikzpicture}
@@ -370,6 +397,7 @@ The gems we used include:
     \caption{Diagram of the database tables and how they are connected.}
     \label{fig:database_layout}
   \end{figure}
+
 \end{mainSection}
 
 \begin{mainSection}{Testing}
@@ -563,7 +591,7 @@ improving database performance for our most common operation.\\
   sentiment analysis. To test the response of our application to an increasing
   load when equipped with more raw power, we set up a number of instances of
   increasing size. We chose the M3 family of instances to test on as they gave
-  a nice balance of computational capabilities, memory, and network resources. 
+  a nice balance of computational capabilities, memory, and network resources.
 
   \begin{figure}[H]
     \begin{center}
